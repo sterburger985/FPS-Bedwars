@@ -115,15 +115,20 @@ Existing place contents (Baseplate, default SpawnLocation) are removed; nothing 
 
 ## 8. Repo layout
 
+`C:\Roblox Dev\FPS Bedwars` is the local home of the GitHub repo (Rojo project, assets and Obsidian notes together).
+
 ```
-blender/   .blend sources
-exports/   FBX meshes as imported into Studio
-textures/  tiling PBR maps
-scripts/   Luau placement script
-docs/      this spec, plan, notes
+default.project.json, aftman.toml   Rojo project (Baseplate and Lighting entries removed)
+src/                                Rojo-synced Luau (client / server / shared)
+blender/                            .blend sources
+exports/                            FBX meshes as imported into Studio
+textures/                           tiling PBR maps
+scripts/                            Luau map placement/build script
+docs/                               this spec, plan
+FPS Bedwars.md, Decisions, Systems/ Obsidian notes
 ```
 
-Notes are also written to the Obsidian vault at `C:\Roblox Dev`.
+Claude can't run git on Sterling's PC, so Claude commits from the cloud copy and mirrors files into the vault folder; Sterling links the folder to GitHub once (clone or GitHub Desktop).
 
 ## 9. Known risks
 
