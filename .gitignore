@@ -1,0 +1,17 @@
+# Project place file
+/FPS Bedwars.rbxlx
+
+# Roblox Studio lock files
+/*.rbxlx.lock
+/*.rbxl.lock
+
+sourcemap.json
+
+# Blender backups
+*.blend1
+
+# Agent scratch
+.superpowers/
+
+# Export temp files
+/exports/*.tmp
