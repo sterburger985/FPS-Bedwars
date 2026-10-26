@@ -91,7 +91,7 @@ Rules: consistent UV texel density (target 1 texture tile ≈ 16 studs on terrai
 ## 6. Environment
 
 - Terrain water slab at Y = 0 extending well beyond the arena; deep blue-grey water colour, low reflectance, gentle waves.
-- Lighting: Future, ClockTime ≈ 13, neutral exposure, natural shadows.
+- Lighting: ClockTime ≈ 13, neutral exposure, natural shadows. (`Lighting.Technology` can't be set through the Studio connector and current Studio uses one unified lighting mode, so it isn't set by the map.)
 - Atmosphere: light haze toward the horizon, low density so enemies stay readable.
 - Sky: pale blue.
 - Effects: remove DepthOfField and SunRays; keep Bloom, toned down.
@@ -111,7 +111,7 @@ A Luau placement script stamps templates from `MapAssets` into `Workspace.Map` a
 
 Gameplay hooks (CollectionService tags + attributes): `Bed` (Team), `Shop` (Team or "Neutral"), `ResourceDispenser` (Tier = "Basic" | "High"), `SpawnPad` (Team), `BuildFloor`, `KillHeight`.
 
-Existing place contents (Baseplate, default SpawnLocation) are removed; nothing else in the place is touched.
+Existing place contents (Baseplate, default SpawnLocation) are removed; nothing else in the place is touched. The Rojo `default.project.json` in the vault currently defines a Workspace Baseplate and Lighting properties; those entries must be removed so `rojo serve` doesn't recreate the Baseplate or overwrite map lighting.
 
 ## 8. Repo layout
 
@@ -126,6 +126,9 @@ docs/      this spec, plan, notes
 Notes are also written to the Obsidian vault at `C:\Roblox Dev`.
 
 ## 9. Known risks
+
+- Pivot gotcha: a Model with a PrimaryPart ignores `WorldPivot`; templates set pivots through `PrimaryPart.PivotOffset` (bottom-centre) before placement.
+- Connector screenshots come back white if Studio is minimised; Studio must stay on screen during visual checks.
 
 - Mesh import goes through Studio's 3D importer. If it can't be driven automatically, Sterling clicks Import once per batch.
 - Uploaded mesh and image assets may sit in Roblox moderation briefly before they render.
