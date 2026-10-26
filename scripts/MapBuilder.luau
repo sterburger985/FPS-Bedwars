@@ -260,7 +260,7 @@ local function buildCentre(parent: Instance)
 	local disp = place("CenterDispenser", CFrame.lookAt(base, away), f, "CenterDispenser")
 	eachPart(disp, "Core_Glow", function(p)
 		p.Color = CYAN
-		addLight(p, CYAN, 22, 1.6)
+		addLight(p, CYAN, 14, 0.6) -- restrained: a stronger light floods the whole pad cyan
 	end)
 	eachPart(disp, "Lights_Glow", function(p)
 		p.Color = Color3.fromRGB(255, 226, 180)
@@ -304,7 +304,7 @@ local function buildPlatforms(parent: Instance)
 		local disp = place("ResourceDispenser", cf, plat, "ResourceDispenser")
 		eachPart(disp, "Core_Glow", function(p)
 			p.Color = AMBER
-			addLight(p, AMBER, 14, 1.2)
+			addLight(p, AMBER, 10, 0.6)
 		end)
 		tag(disp, "ResourceDispenser", {Tier = "Basic"})
 	end

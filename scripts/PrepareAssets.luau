@@ -35,12 +35,12 @@ local ORIGINS: {[string]: {t: string, o: Vector3}} = {
 	["Dispenser_Core_Glow"] = {t = "ResourceDispenser", o = Vector3.new(0.0000, -4.1500, -0.0000)},
 	["Dispenser_Housing_Rust"] = {t = "ResourceDispenser", o = Vector3.new(0.0000, -4.3000, -2.7000)},
 	["Dispenser_Tube_Glass"] = {t = "ResourceDispenser", o = Vector3.new(0.0000, -4.1500, -0.0000)},
-	["Distant_01_RockDark"] = {t = "Distant_01", o = Vector3.new(2.1448, -15.0000, -0.1832)},
-	["Distant_02_RockDark"] = {t = "Distant_02", o = Vector3.new(-2.8746, -15.0000, -0.3275)},
-	["Distant_03_RockDark"] = {t = "Distant_03", o = Vector3.new(0.0155, -15.0000, -1.1276)},
-	["Distant_04_RockDark"] = {t = "Distant_04", o = Vector3.new(1.8229, -15.0000, 1.6949)},
-	["Distant_05_RockDark"] = {t = "Distant_05", o = Vector3.new(3.2721, -15.0000, 0.7102)},
-	["Distant_06_RockDark"] = {t = "Distant_06", o = Vector3.new(-3.0355, -15.0000, 1.5734)},
+	["Distant_01_RockDark"] = {t = "Distant_01", o = Vector3.new(0.0000, -7.5041, 0.0000)},
+	["Distant_02_RockDark"] = {t = "Distant_02", o = Vector3.new(0.0000, -5.9690, 0.0000)},
+	["Distant_03_RockDark"] = {t = "Distant_03", o = Vector3.new(0.0000, -6.4476, 0.0000)},
+	["Distant_04_RockDark"] = {t = "Distant_04", o = Vector3.new(0.0000, -6.4812, 0.0000)},
+	["Distant_05_RockDark"] = {t = "Distant_05", o = Vector3.new(0.0000, -8.2281, 0.0000)},
+	["Distant_06_RockDark"] = {t = "Distant_06", o = Vector3.new(0.0000, -5.3612, 0.0000)},
 	["Outcrop_01_Rock"] = {t = "Outcrop_01", o = Vector3.new(0.3299, -1.4605, 0.1575)},
 	["Outcrop_02_Rock"] = {t = "Outcrop_02", o = Vector3.new(-0.0186, -2.2173, -0.1030)},
 	["Outcrop_03_Rock"] = {t = "Outcrop_03", o = Vector3.new(-0.1675, -1.2861, -0.0659)},
@@ -175,12 +175,13 @@ end
 
 -- Builds ServerStorage.MapAssets from the import containers. Returns a report.
 function PrepareAssets.run(sources: {Instance}): {templates: number, parts: number, missing: {string}, unknown: {string}}
-	local old = ServerStorage:FindFirstChild("MapAssets")
-	if old then
-		old:Destroy()
+	-- Merge: only templates rebuilt from `sources` are replaced; everything else in MapAssets stays.
+	local folder = ServerStorage:FindFirstChild("MapAssets")
+	if not folder then
+		folder = Instance.new("Folder")
+		folder.Name = "MapAssets"
+		folder.Parent = ServerStorage
 	end
-	local folder = Instance.new("Folder")
-	folder.Name = "MapAssets"
 
 	local models: {[string]: Model} = {}
 	local seen: {[string]: boolean} = {}
@@ -215,17 +216,21 @@ function PrepareAssets.run(sources: {Instance}): {templates: number, parts: numb
 			end
 		end
 	end
+	-- parts listed in ORIGINS that these sources did not provide (expected when importing a subset)
 	local missing = {}
 	for name in pairs(ORIGINS) do
 		if not seen[name] then
 			table.insert(missing, name)
 		end
 	end
-	for _, m in pairs(models) do
+	for name, m in pairs(models) do
+		local existing = (folder :: Folder):FindFirstChild(name)
+		if existing then
+			existing:Destroy()
+		end
 		m:PivotTo(CFrame.new())
 		m.Parent = folder
 	end
-	folder.Parent = ServerStorage
 	local n = 0
 	for _ in pairs(models) do
 		n += 1
