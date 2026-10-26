@@ -338,7 +338,8 @@ end
 
 function MapBuilder.buildOcean()
 	local terrain = workspace.Terrain
-	terrain:Clear()
+	-- No terrain:Clear(): the fills below overwrite the ocean slab in place, so re-running the
+	-- builder never wipes terrain added elsewhere in the place.
 	-- 4 x 4 blocks of 2048 cover 8192 x 8192 so no water edge is visible from the arena
 	for ix = -2, 1 do
 		for iz = -2, 1 do
