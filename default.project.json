@@ -28,6 +28,11 @@
       "$properties": {
         "RespectFilteringEnabled": true
       }
+    },
+    "ServerStorage": {
+      "MapTools": {
+        "$path": "scripts"
+      }
     }
   }
 }
