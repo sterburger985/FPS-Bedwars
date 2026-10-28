@@ -87,6 +87,36 @@ local ORIGINS: {[string]: {t: string, o: Vector3}} = {
 	["TI5_Top_Sand"] = {t = "TeamIsland_5", o = Vector3.new(-4.6614, -0.0592, -10.5140)},
 	["TI5_Under_Rock"] = {t = "TeamIsland_5", o = Vector3.new(-3.8571, 41.3081, -9.2675)},
 	["TI5_Under_RockDark"] = {t = "TeamIsland_5", o = Vector3.new(-2.5688, 74.6129, -2.6628)},
+	-- GLB team island (imports/team-island-blocky.glb via blender/fpsb_glb_island.py, glb_origins.json)
+	["GI_Banner_Cloth"] = {t = "GLBBanner", o = Vector3.new(6.3000, -15.5750, 39.7250)},
+	["GI_Banner_dark"] = {t = "GLBBanner", o = Vector3.new(6.3000, -7.0000, 36.4000)},
+	["GI_Banner_glow"] = {t = "GLBBanner", o = Vector3.new(6.3000, -23.9750, 39.9000)},
+	["GI_Banner_metal"] = {t = "GLBBanner", o = Vector3.new(6.3000, -23.1000, 39.9000)},
+	["GI_Banner_white"] = {t = "GLBBanner", o = Vector3.new(6.3000, -16.1407, 39.5587)},
+	["GI_Banner_wood_dark"] = {t = "GLBBanner", o = Vector3.new(6.3000, -11.3750, 39.9000)},
+	["GI_Hut_glow"] = {t = "GLBHut", o = Vector3.new(35.7493, -5.8625, -17.8133)},
+	["GI_Hut_metal"] = {t = "GLBHut", o = Vector3.new(39.9000, -4.3750, -12.6000)},
+	["GI_Hut_rust"] = {t = "GLBHut", o = Vector3.new(39.9000, -4.5063, -12.6000)},
+	["GI_Hut_wood"] = {t = "GLBHut", o = Vector3.new(40.1615, -3.7625, -14.1217)},
+	["GI_Hut_wood_dark"] = {t = "GLBHut", o = Vector3.new(39.9000, -3.7625, -12.6000)},
+	["GI_Island_dark"] = {t = "GLBIsland", o = Vector3.new(45.1500, -15.0500, 30.4500)},
+	["GI_Island_glow"] = {t = "GLBIsland", o = Vector3.new(44.7125, -15.0413, 29.9250)},
+	["GI_Island_grass"] = {t = "GLBIsland", o = Vector3.new(0.7840, 19.0631, -0.8556)},
+	["GI_Island_metal"] = {t = "GLBIsland", o = Vector3.new(25.5500, -9.4500, 37.6469)},
+	["GI_Island_pine"] = {t = "GLBIsland", o = Vector3.new(-0.1925, -8.1200, 1.4350)},
+	["GI_Island_rock"] = {t = "GLBIsland", o = Vector3.new(0.7841, 27.6395, -0.8560)},
+	["GI_Island_rock_dark"] = {t = "GLBIsland", o = Vector3.new(1.6341, 30.5544, -1.3461)},
+	["GI_Island_rust"] = {t = "GLBIsland", o = Vector3.new(24.5000, -8.6625, 38.4344)},
+	["GI_Island_sand"] = {t = "GLBIsland", o = Vector3.new(0.0000, 0.3500, -0.0000)},
+	["GI_Island_wood"] = {t = "GLBIsland", o = Vector3.new(-2.5281, -6.3875, 7.6249)},
+	["GI_Island_wood_dark"] = {t = "GLBIsland", o = Vector3.new(-0.0263, -7.4375, 1.3825)},
+	["GI_Shop_Cloth"] = {t = "GLBShop", o = Vector3.new(-35.2334, -4.9875, 32.4287)},
+	["GI_Shop_dark"] = {t = "GLBShop", o = Vector3.new(-32.5590, -7.2625, 20.9683)},
+	["GI_Shop_glow"] = {t = "GLBShop", o = Vector3.new(-37.0916, -7.2625, 20.2907)},
+	["GI_Shop_metal"] = {t = "GLBShop", o = Vector3.new(-35.6161, -6.0445, 26.2534)},
+	["GI_Shop_rust"] = {t = "GLBShop", o = Vector3.new(-35.6161, -7.8064, 26.2534)},
+	["GI_Shop_wood"] = {t = "GLBShop", o = Vector3.new(-36.1065, -5.3375, 25.1562)},
+	["GI_Shop_wood_dark"] = {t = "GLBShop", o = Vector3.new(-35.6255, -4.9875, 25.5556)},
 }
 
 export type MaterialSpec = {material: Enum.Material, variant: string?, color: Color3, transparency: number?, reflectance: number?}
@@ -107,12 +137,33 @@ PrepareAssets.MATERIALS = {
 	Canvas = {material = Enum.Material.Fabric, color = Color3.fromRGB(70, 72, 76)},
 	Glow = {material = Enum.Material.Neon, color = Color3.fromRGB(255, 170, 60)},
 	Glass = {material = Enum.Material.Glass, color = Color3.fromRGB(180, 205, 210), transparency = 0.55, reflectance = 0.05},
+	-- GLB team island: keeps the GLB's own flat colours (Sterling, 2026-10-27). Keys are "GLB:<gltf material>";
+	-- colours are the glTF baseColorFactor converted from linear to sRGB.
+	["GLB:rock"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(143, 138, 132)},
+	["GLB:rock_dark"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(109, 105, 100)},
+	["GLB:sand"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(226, 201, 142)},
+	["GLB:grass"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(76, 176, 74)},
+	["GLB:pine"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(46, 139, 62)},
+	["GLB:wood"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(176, 112, 60)},
+	["GLB:wood_dark"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(110, 68, 38)},
+	["GLB:metal"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(169, 179, 188)},
+	["GLB:rust"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(192, 88, 44)},
+	["GLB:dark"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(43, 42, 46)},
+	["GLB:white"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(242, 239, 232)},
+	["GLB:glow"] = {material = Enum.Material.Neon, color = Color3.fromRGB(255, 198, 74)},
+	["GLB:Cloth"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(196, 52, 46)}, -- recoloured per team
 } :: {[string]: MaterialSpec}
 
 -- Suffixes checked longest first so "_RockDark" wins over "_Rock".
 local SUFFIX_ORDER = {"RockDark", "Rock", "Sand", "Rust", "Steel", "Concrete", "Wood", "Cloth", "Linen", "Canvas", "Glow", "Glass"}
 
 function PrepareAssets.suffixOf(name: string): string?
+	-- GLB island parts are named GI_<Template>_<gltf material>
+	local glb = string.match(name, "^GI_%a+_(.+)$")
+	if glb then
+		local key = "GLB:" .. glb
+		return if PrepareAssets.MATERIALS[key] then key else nil
+	end
 	for _, s in ipairs(SUFFIX_ORDER) do
 		if string.sub(name, -(#s + 1)) == "_" .. s then
 			return s
@@ -136,6 +187,7 @@ local function applyCollision(part: MeshPart, suffix: string)
 	local decorative = string.find(n, "^Distant_") ~= nil
 		or string.find(n, "_Under_") ~= nil
 		or suffix == "Glow" or suffix == "Cloth" or suffix == "Linen" or suffix == "Canvas"
+		or suffix == "GLB:glow" or suffix == "GLB:Cloth" or suffix == "GLB:white"
 		or string.find(n, "SignFace") ~= nil or string.find(n, "Lights") ~= nil or string.find(n, "Lamp") ~= nil
 	if decorative then
 		part.CanCollide = false
@@ -147,8 +199,9 @@ local function applyCollision(part: MeshPart, suffix: string)
 		part.CanTouch = false
 		part.CanQuery = true
 		-- islands, rocks, walls and frames need accurate collision; small solid props are fine with hulls
+		-- GLB parts are many boxes joined into one mesh per material: a single hull would wrap them all
 		local precise = suffix == "Rock" or suffix == "Sand" or suffix == "Rust" or suffix == "Steel"
-			or suffix == "Concrete" or suffix == "Wood"
+			or suffix == "Concrete" or suffix == "Wood" or string.sub(suffix, 1, 4) == "GLB:"
 		part.CollisionFidelity = if precise then Enum.CollisionFidelity.PreciseConvexDecomposition
 			else Enum.CollisionFidelity.Hull
 	end

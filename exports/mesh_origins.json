@@ -1,0 +1,1038 @@
+{
+ "TI1_Top_Sand": {
+  "c": [
+   4.5661,
+   10.0465,
+   0.1874
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_1",
+  "parent": "TeamIsland_1"
+ },
+ "TI1_Rim_Rock": {
+  "c": [
+   3.4922,
+   9.8966,
+   -14.2851
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_1",
+  "parent": "TeamIsland_1"
+ },
+ "TI1_Under_Rock": {
+  "c": [
+   4.8402,
+   9.034,
+   -34.8199
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_1",
+  "parent": "TeamIsland_1"
+ },
+ "TI1_Under_RockDark": {
+  "c": [
+   3.357,
+   8.1043,
+   -72.3341
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_1",
+  "parent": "TeamIsland_1"
+ },
+ "TI2_Top_Sand": {
+  "c": [
+   -1.3808,
+   9.9416,
+   0.0409
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_2",
+  "parent": "TeamIsland_2"
+ },
+ "TI2_Rim_Rock": {
+  "c": [
+   -0.6909,
+   9.1364,
+   -14.6462
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_2",
+  "parent": "TeamIsland_2"
+ },
+ "TI2_Under_Rock": {
+  "c": [
+   -0.8909,
+   9.9244,
+   -37.544
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_2",
+  "parent": "TeamIsland_2"
+ },
+ "TI2_Under_RockDark": {
+  "c": [
+   -0.6351,
+   8.539,
+   -71.7398
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_2",
+  "parent": "TeamIsland_2"
+ },
+ "TI3_Top_Sand": {
+  "c": [
+   -1.1916,
+   11.4897,
+   0.0947
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_3",
+  "parent": "TeamIsland_3"
+ },
+ "TI3_Rim_Rock": {
+  "c": [
+   -1.1916,
+   10.793,
+   -15.2151
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_3",
+  "parent": "TeamIsland_3"
+ },
+ "TI3_Under_Rock": {
+  "c": [
+   -1.4503,
+   10.7518,
+   -38.8239
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_3",
+  "parent": "TeamIsland_3"
+ },
+ "TI3_Under_RockDark": {
+  "c": [
+   -1.0233,
+   8.1225,
+   -72.2312
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_3",
+  "parent": "TeamIsland_3"
+ },
+ "TI4_Top_Sand": {
+  "c": [
+   -0.4714,
+   16.8495,
+   0.0965
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_4",
+  "parent": "TeamIsland_4"
+ },
+ "TI4_Rim_Rock": {
+  "c": [
+   -0.4981,
+   16.3409,
+   -15.1239
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_4",
+  "parent": "TeamIsland_4"
+ },
+ "TI4_Under_Rock": {
+  "c": [
+   -0.1029,
+   15.8518,
+   -37.6295
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_4",
+  "parent": "TeamIsland_4"
+ },
+ "TI4_Under_RockDark": {
+  "c": [
+   -0.071,
+   12.8157,
+   -73.1007
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_4",
+  "parent": "TeamIsland_4"
+ },
+ "TI5_Top_Sand": {
+  "c": [
+   -4.6614,
+   10.514,
+   0.0592
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_5",
+  "parent": "TeamIsland_5"
+ },
+ "TI5_Rim_Rock": {
+  "c": [
+   -3.6435,
+   10.6783,
+   -16.8178
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_5",
+  "parent": "TeamIsland_5"
+ },
+ "TI5_Under_Rock": {
+  "c": [
+   -3.8571,
+   9.2675,
+   -41.3081
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_5",
+  "parent": "TeamIsland_5"
+ },
+ "TI5_Under_RockDark": {
+  "c": [
+   -2.5688,
+   2.6628,
+   -74.6129
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "TeamIsland_5",
+  "parent": "TeamIsland_5"
+ },
+ "CI_Top_Sand": {
+  "c": [
+   5.2819,
+   -4.5881,
+   0.121
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "CenterIsland",
+  "parent": "CenterIsland"
+ },
+ "CI_Rim_Rock": {
+  "c": [
+   5.0524,
+   -4.2534,
+   -14.1183
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "CenterIsland",
+  "parent": "CenterIsland"
+ },
+ "CI_Under_Rock": {
+  "c": [
+   5.426,
+   -3.6236,
+   -36.7596
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "CenterIsland",
+  "parent": "CenterIsland"
+ },
+ "CI_Under_RockDark": {
+  "c": [
+   3.7395,
+   -2.4973,
+   -80.5823
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "CenterIsland",
+  "parent": "CenterIsland"
+ },
+ "CI_Pad_Concrete": {
+  "c": [
+   0.0,
+   0.0,
+   -0.025
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "CenterIsland",
+  "parent": "CenterIsland"
+ },
+ "Arch_Rock": {
+  "c": [
+   0.0475,
+   -0.1771,
+   9.2503
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "Arch_Rock",
+  "parent": null
+ },
+ "Outcrop_01_Rock": {
+  "c": [
+   0.3299,
+   -0.1575,
+   1.4605
+  ],
+  "rel": [
+   -108.0,
+   0.0,
+   0.0
+  ],
+  "root": "Outcrops",
+  "parent": "Outcrops"
+ },
+ "Outcrop_02_Rock": {
+  "c": [
+   -0.0186,
+   0.103,
+   2.2173
+  ],
+  "rel": [
+   -84.0,
+   0.0,
+   0.0
+  ],
+  "root": "Outcrops",
+  "parent": "Outcrops"
+ },
+ "Outcrop_03_Rock": {
+  "c": [
+   -0.1675,
+   0.0659,
+   1.2861
+  ],
+  "rel": [
+   -60.0,
+   0.0,
+   0.0
+  ],
+  "root": "Outcrops",
+  "parent": "Outcrops"
+ },
+ "Outcrop_04_Rock": {
+  "c": [
+   0.1315,
+   0.0447,
+   2.3275
+  ],
+  "rel": [
+   -36.0,
+   0.0,
+   0.0
+  ],
+  "root": "Outcrops",
+  "parent": "Outcrops"
+ },
+ "Outcrop_05_Rock": {
+  "c": [
+   -0.1425,
+   -0.0343,
+   1.5592
+  ],
+  "rel": [
+   -12.0,
+   0.0,
+   0.0
+  ],
+  "root": "Outcrops",
+  "parent": "Outcrops"
+ },
+ "Outcrop_06_Rock": {
+  "c": [
+   -0.2259,
+   0.2097,
+   1.3654
+  ],
+  "rel": [
+   12.0,
+   0.0,
+   0.0
+  ],
+  "root": "Outcrops",
+  "parent": "Outcrops"
+ },
+ "Outcrop_07_Rock": {
+  "c": [
+   -0.2231,
+   -0.019,
+   1.1368
+  ],
+  "rel": [
+   36.0,
+   0.0,
+   0.0
+  ],
+  "root": "Outcrops",
+  "parent": "Outcrops"
+ },
+ "Outcrop_08_Rock": {
+  "c": [
+   -0.0769,
+   -0.0012,
+   2.0992
+  ],
+  "rel": [
+   60.0,
+   0.0,
+   0.0
+  ],
+  "root": "Outcrops",
+  "parent": "Outcrops"
+ },
+ "Outcrop_09_Rock": {
+  "c": [
+   -0.1303,
+   -0.1392,
+   1.2946
+  ],
+  "rel": [
+   84.0,
+   0.0,
+   0.0
+  ],
+  "root": "Outcrops",
+  "parent": "Outcrops"
+ },
+ "Outcrop_10_Rock": {
+  "c": [
+   -0.1057,
+   -0.0757,
+   1.4652
+  ],
+  "rel": [
+   108.0,
+   0.0,
+   0.0
+  ],
+  "root": "Outcrops",
+  "parent": "Outcrops"
+ },
+ "Platform_Deck_Concrete": {
+  "c": [
+   0.0,
+   0.0,
+   -1.0
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "ResourcePlatform",
+  "parent": "ResourcePlatform"
+ },
+ "Platform_Rim_Steel": {
+  "c": [
+   0.0,
+   0.0,
+   -0.85
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "ResourcePlatform",
+  "parent": "ResourcePlatform"
+ },
+ "Platform_Rim_Rock": {
+  "c": [
+   -1.0717,
+   0.0839,
+   -6.1919
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "ResourcePlatform",
+  "parent": "ResourcePlatform"
+ },
+ "Platform_Under_Rock": {
+  "c": [
+   -0.0632,
+   -0.1856,
+   -12.7903
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "ResourcePlatform",
+  "parent": "ResourcePlatform"
+ },
+ "Platform_Under_RockDark": {
+  "c": [
+   -0.9054,
+   -0.1267,
+   -30.7418
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "ResourcePlatform",
+  "parent": "ResourcePlatform"
+ },
+ "Distant_01_RockDark": {
+  "c": [
+   2.1448,
+   0.1832,
+   15.0
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "DistantIslands",
+  "parent": "DistantIslands"
+ },
+ "Distant_02_RockDark": {
+  "c": [
+   -2.8746,
+   0.3275,
+   15.0
+  ],
+  "rel": [
+   160.0,
+   0.0,
+   0.0
+  ],
+  "root": "DistantIslands",
+  "parent": "DistantIslands"
+ },
+ "Distant_03_RockDark": {
+  "c": [
+   0.0155,
+   1.1276,
+   15.0
+  ],
+  "rel": [
+   320.0,
+   0.0,
+   0.0
+  ],
+  "root": "DistantIslands",
+  "parent": "DistantIslands"
+ },
+ "Distant_04_RockDark": {
+  "c": [
+   1.8229,
+   -1.6949,
+   15.0
+  ],
+  "rel": [
+   480.0,
+   0.0,
+   0.0
+  ],
+  "root": "DistantIslands",
+  "parent": "DistantIslands"
+ },
+ "Distant_05_RockDark": {
+  "c": [
+   3.2721,
+   -0.7102,
+   15.0
+  ],
+  "rel": [
+   640.0,
+   0.0,
+   0.0
+  ],
+  "root": "DistantIslands",
+  "parent": "DistantIslands"
+ },
+ "Distant_06_RockDark": {
+  "c": [
+   -3.0355,
+   -1.5734,
+   15.0
+  ],
+  "rel": [
+   800.0,
+   0.0,
+   0.0
+  ],
+  "root": "DistantIslands",
+  "parent": "DistantIslands"
+ },
+ "Shed_Slab_Concrete": {
+  "c": [
+   0.0,
+   0.0,
+   0.5
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "StarterShed",
+  "parent": "StarterShed"
+ },
+ "Shed_Frame_Steel": {
+  "c": [
+   0.0,
+   -0.55,
+   7.0
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "StarterShed",
+  "parent": "StarterShed"
+ },
+ "Shed_Lamp_Glow": {
+  "c": [
+   0.0,
+   -12.6,
+   11.05
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "StarterShed",
+  "parent": "StarterShed"
+ },
+ "Shed_Walls_Rust": {
+  "c": [
+   0.0,
+   -0.0062,
+   7.3844
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "StarterShed",
+  "parent": "StarterShed"
+ },
+ "Bed_Frame_Wood": {
+  "c": [
+   0.0,
+   0.0,
+   1.6
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "Bed",
+  "parent": "Bed"
+ },
+ "Bed_Blanket_Cloth": {
+  "c": [
+   0.0,
+   -0.6,
+   1.4
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "Bed",
+  "parent": "Bed"
+ },
+ "Bed_Pillow_Linen": {
+  "c": [
+   0.0,
+   2.6,
+   1.55
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "Bed",
+  "parent": "Bed"
+ },
+ "Banner_Base_Concrete": {
+  "c": [
+   0.0,
+   0.0,
+   0.3
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "BannerMast",
+  "parent": "BannerMast"
+ },
+ "Banner_Pole_Steel": {
+  "c": [
+   0.0,
+   0.0,
+   12.3
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "BannerMast",
+  "parent": "BannerMast"
+ },
+ "Banner_Flag_Cloth": {
+  "c": [
+   0.0,
+   -0.0012,
+   19.55
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "BannerMast",
+  "parent": "BannerMast"
+ },
+ "Shop_Floor_Concrete": {
+  "c": [
+   0.0,
+   0.0,
+   0.3
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "ShopStall",
+  "parent": "ShopStall"
+ },
+ "Shop_Frame_Steel": {
+  "c": [
+   0.0,
+   -0.05,
+   8.2
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "ShopStall",
+  "parent": "ShopStall"
+ },
+ "Shop_SignFace_Steel": {
+  "c": [
+   0.0,
+   -8.1,
+   14.7
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "ShopStall",
+  "parent": "ShopStall"
+ },
+ "Shop_Walls_Rust": {
+  "c": [
+   0.0,
+   -0.3214,
+   6.4331
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "ShopStall",
+  "parent": "ShopStall"
+ },
+ "Shop_Fittings_Wood": {
+  "c": [
+   -0.05,
+   0.125,
+   4.6
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "ShopStall",
+  "parent": "ShopStall"
+ },
+ "Shop_CounterTop_Steel": {
+  "c": [
+   0.0,
+   -2.2,
+   3.3
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "ShopStall",
+  "parent": "ShopStall"
+ },
+ "Shop_Lights_Glow": {
+  "c": [
+   0.0,
+   -1.0,
+   10.2
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "ShopStall",
+  "parent": "ShopStall"
+ },
+ "Dispenser_Body_Steel": {
+  "c": [
+   0.0,
+   -0.45,
+   4.0
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "ResourceDispenser",
+  "parent": "ResourceDispenser"
+ },
+ "Dispenser_Housing_Rust": {
+  "c": [
+   0.0,
+   2.7,
+   4.3
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "ResourceDispenser",
+  "parent": "ResourceDispenser"
+ },
+ "Dispenser_Tube_Glass": {
+  "c": [
+   0.0,
+   0.0,
+   4.15
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "ResourceDispenser",
+  "parent": "ResourceDispenser"
+ },
+ "Dispenser_Core_Glow": {
+  "c": [
+   0.0,
+   0.0,
+   4.15
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "ResourceDispenser",
+  "parent": "ResourceDispenser"
+ },
+ "CDisp_Body_Steel": {
+  "c": [
+   0.0,
+   0.0,
+   9.0
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "CenterDispenser",
+  "parent": "CenterDispenser"
+ },
+ "CDisp_Roof_Rust": {
+  "c": [
+   0.0,
+   0.0,
+   10.935
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "CenterDispenser",
+  "parent": "CenterDispenser"
+ },
+ "CDisp_Tube_Glass": {
+  "c": [
+   0.0,
+   0.0,
+   6.9
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "CenterDispenser",
+  "parent": "CenterDispenser"
+ },
+ "CDisp_Core_Glow": {
+  "c": [
+   0.0,
+   0.0,
+   6.9
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "CenterDispenser",
+  "parent": "CenterDispenser"
+ },
+ "CDisp_Lights_Glow": {
+  "c": [
+   0.0,
+   -3.0,
+   16.9
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "CenterDispenser",
+  "parent": "CenterDispenser"
+ },
+ "CDisp_Banners_Canvas": {
+  "c": [
+   0.0,
+   -11.2,
+   11.5
+  ],
+  "rel": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "root": "CenterDispenser",
+  "parent": "CenterDispenser"
+ }
+}

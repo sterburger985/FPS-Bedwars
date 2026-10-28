@@ -154,10 +154,10 @@ function MapChecks.run(MapBuilder: any): {pass: boolean, failures: {string}, sta
 
 		-- 4. bed access: from 3 studs outside the doorway, a ray to the bed's centre hits the bed first
 		local bed = folder:FindFirstChild("Bed") :: Model
-		local shed = folder:FindFirstChild("StarterShed") :: Model
 		local bedCf, bedSize = bed:GetBoundingBox()
-		local door = shed:GetPivot() * CFrame.new(0, 3, -12.5 - 3)
-		local hit = workspace:Raycast(door.Position, bedCf.Position - door.Position, params({folder:FindFirstChild("BuildFloor") :: Instance}))
+		-- 3 studs outside the starter building's doorway, from the active layout
+		local door = cf:PointToWorldSpace(MapBuilder.LAYOUT.bedCheckFrom)
+		local hit = workspace:Raycast(door, bedCf.Position - door, params({folder:FindFirstChild("BuildFloor") :: Instance}))
 		if not hit or not hit.Instance:IsDescendantOf(bed) then
 			fail(string.format("%s bed not reachable through the doorway (hit %s)", t.name, hit and hit.Instance:GetFullName() or "nothing"))
 		end

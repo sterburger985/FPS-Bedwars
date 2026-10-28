@@ -32,8 +32,23 @@ local CYAN = Color3.fromRGB(60, 220, 255)
 local NEUTRAL_SIGN = Color3.fromRGB(120, 124, 130)
 
 -- Island-local layout (studs). Build zone: x -60..60, z -42..54 (120 x 96, 6 toward the back).
-MapBuilder.LAYOUT = {
+-- Which team island to build: "GLB" = Sterling's blocky GLB island (imports/team-island-blocky.glb,
+-- 2026-10-27), "Rust" = the original generated island with the rusted shed.
+MapBuilder.TEAM_STYLE = "GLB"
+
+-- Island-local layout for the GLB island (studs, local -Z faces the centre).
+-- GLB (x, z) maps to island-local (1.75x, 1.75z): see blender/fpsb_glb_island.py.
+MapBuilder.LAYOUT_GLB = {
+	buildZone = {center = Vector3.new(0, 0, 0), size = Vector3.new(120, 0, 96)},
+	spawn = Vector3.new(0, 0, 2),
+	bed = CFrame.new(-39.9, 0.53, 10.9) * CFrame.Angles(0, math.pi, 0), -- headboard against the wall opposite the door
+	bedCheckFrom = Vector3.new(-39.1, 3, 20.8),  -- 3 studs outside the hut doorway (doorway faces +Z)
+	shopSign = {cframe = CFrame.new(32.56, 7.26, -20.38), size = Vector3.new(7.4, 2.0, 0.1), face = Enum.NormalId.Back},
+}
+
+MapBuilder.LAYOUT_RUST = {
 	buildZone = {center = Vector3.new(0, 0, 6), size = Vector3.new(120, 0, 96)},
+	bedCheckFrom = Vector3.new(0, 3, 18.5),
 	shed = Vector3.new(0, 0, 34),               -- doorway faces -Z (the yard and the centre)
 	bedInShed = Vector3.new(0, 1, 7.2),         -- on the slab, headboard against the back wall
 	spawn = Vector3.new(0, 0, 2),
@@ -46,6 +61,9 @@ MapBuilder.LAYOUT = {
 		{pos = Vector3.new(50, 0, -30), yaw = -10},
 	},
 }
+
+-- The active layout (MapChecks reads this).
+MapBuilder.LAYOUT = if MapBuilder.TEAM_STYLE == "GLB" then MapBuilder.LAYOUT_GLB else MapBuilder.LAYOUT_RUST
 
 local function deg(a: number): number
 	return math.rad(a)
@@ -174,7 +192,7 @@ local function spawnPad(parent: Instance, cf: CFrame, team: string, color: Color
 	s.Name = "SpawnPad"
 	s.Anchored = true
 	s.Size = Vector3.new(8, 1, 8)
-	s.CFrame = cf * CFrame.new(MapBuilder.LAYOUT.spawn) * CFrame.new(0, -0.45, 0)
+	s.CFrame = cf * CFrame.new(MapBuilder.LAYOUT.spawn or Vector3.new(0, 0, 2)) * CFrame.new(0, -0.45, 0)
 	s.Material = Enum.Material.Concrete
 	s.MaterialVariant = "FPSB_Concrete"
 	s.Color = Color3.fromRGB(205, 203, 198)
@@ -201,8 +219,68 @@ local function spawnPad(parent: Instance, cf: CFrame, team: string, color: Color
 	s.Parent = parent
 end
 
+local function buildGLBTeamIsland(parent: Instance, team: {name: string, angle: number, color: Color3})
+	local L = MapBuilder.LAYOUT_GLB
+	local cf = MapBuilder.teamCFrame(team.name)
+	local f = folder(team.name, parent)
+	f:SetAttribute("Team", team.name)
+
+	place("GLBIsland", cf, f, "Island")
+
+	-- the GLB's own bed hut (door removed) is the starter building
+	local hut = place("GLBHut", cf, f, "StarterShed")
+	eachPart(hut, "_glow", function(p)
+		addLight(p, Color3.fromRGB(255, 200, 140), 10, 0.6)
+	end)
+
+	local bed = place("Bed", cf * L.bed, f, "Bed")
+	eachPart(bed, "_Cloth", function(p)
+		p.Color = team.color
+	end)
+	tag(bed, "Bed", {Team = team.name})
+
+	local shop = place("GLBShop", cf, f, "Shop")
+	eachPart(shop, "_Cloth", function(p)
+		p.Color = team.color
+	end)
+	eachPart(shop, "_glow", function(p)
+		addLight(p, Color3.fromRGB(255, 214, 160), 12, 0.6)
+	end)
+	-- legible label: a thin sign face in front of the GLB's sign board, carrying the SurfaceGui
+	local face = Instance.new("Part")
+	face.Name = "Shop_SignFace_Steel"
+	face.Anchored = true
+	face.CanCollide = false
+	face.CanQuery = false
+	face.CanTouch = false
+	face.CastShadow = false
+	face.Material = Enum.Material.SmoothPlastic
+	face.Color = Color3.fromRGB(43, 42, 46)
+	face.Size = L.shopSign.size
+	face.CFrame = cf * L.shopSign.cframe
+	face.Parent = shop
+	signGui(shop, team.color, "SHOP")
+	local gui = face:FindFirstChildOfClass("SurfaceGui")
+	if gui then
+		gui.Face = L.shopSign.face
+	end
+	tag(shop, "Shop", {Team = team.name})
+
+	local banner = place("GLBBanner", cf, f, "Banner")
+	eachPart(banner, "_Cloth", function(p)
+		p.Color = team.color
+	end)
+
+	buildFloor(f, cf, L.buildZone)
+	spawnPad(f, cf, team.name, team.color)
+end
+
 local function buildTeamIsland(parent: Instance, index: number, team: {name: string, angle: number, color: Color3})
-	local L = MapBuilder.LAYOUT
+	if MapBuilder.TEAM_STYLE == "GLB" then
+		buildGLBTeamIsland(parent, team)
+		return
+	end
+	local L = MapBuilder.LAYOUT_RUST
 	local cf = MapBuilder.teamCFrame(team.name)
 	local f = folder(team.name, parent)
 	f:SetAttribute("Team", team.name)

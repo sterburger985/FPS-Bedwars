@@ -15,6 +15,7 @@ Competitive multiplayer first-person survival shooter on Roblox. It keeps the Be
 
 ## Current status
 - **Phase 1: Map.** Built and tested in Studio on 2026-10-25. Waiting for Sterling's review. See [[Phase 1 - Map]].
+- **Phase 1b: GLB team islands.** On 2026-10-27 the team islands were replaced with Sterling's blocky GLB island. Tested and saved. See [[Phase 1b - GLB Team Islands]].
 - Next: whatever Sterling picks (bridge building, beds/respawn, shop UI, dispenser economy).
 
 ## Systems
@@ -24,4 +25,4 @@ Competitive multiplayer first-person survival shooter on Roblox. It keeps the Be
 ## Decisions
 See [[FPS Bedwars Decisions]]
 
-![[studio_aerial.jpg]]
+![[studio_glb_aerial.jpg]]
