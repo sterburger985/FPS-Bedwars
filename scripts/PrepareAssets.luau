@@ -117,6 +117,74 @@ local ORIGINS: {[string]: {t: string, o: Vector3}} = {
 	["GI_Shop_rust"] = {t = "GLBShop", o = Vector3.new(-35.6161, -7.8064, 26.2534)},
 	["GI_Shop_wood"] = {t = "GLBShop", o = Vector3.new(-36.1065, -5.3375, 25.1562)},
 	["GI_Shop_wood_dark"] = {t = "GLBShop", o = Vector3.new(-35.6255, -4.9875, 25.5556)},
+	-- GLB centre island (imports/bedwars-central-island.glb via blender/fpsb_glb_centre.py, glbc_origins.json)
+	["GC_Centre_banner"] = {t = "GLBCentre", o = Vector3.new(48.0000, -30.0000, -28.8000)},
+	["GC_Centre_dirt_path"] = {t = "GLBCentre", o = Vector3.new(-4.0000, 0.6000, 0.0000)},
+	["GC_Centre_gold_trim"] = {t = "GLBCentre", o = Vector3.new(16.6071, -17.4471, -6.2200)},
+	["GC_Centre_grass"] = {t = "GLBCentre", o = Vector3.new(0.0000, -7.2000, 0.0000)},
+	["GC_Centre_lamp_glow"] = {t = "GLBCentre", o = Vector3.new(13.4000, -28.7400, -2.0000)},
+	["GC_Centre_leaves"] = {t = "GLBCentre", o = Vector3.new(-1.7144, -12.4166, -2.6401)},
+	["GC_Centre_metal"] = {t = "GLBCentre", o = Vector3.new(-4.2000, -3.2000, -1.0000)},
+	["GC_Centre_rock"] = {t = "GLBCentre", o = Vector3.new(-0.4064, 52.3255, -0.3660)},
+	["GC_Centre_rock_dark"] = {t = "GLBCentre", o = Vector3.new(0.0102, 49.9817, 0.3008)},
+	["GC_Centre_roof"] = {t = "GLBCentre", o = Vector3.new(48.0000, -50.0000, -34.0000)},
+	["GC_Centre_sand"] = {t = "GLBCentre", o = Vector3.new(0.0000, 0.6000, 0.0000)},
+	["GC_Centre_stone_tile"] = {t = "GLBCentre", o = Vector3.new(7.8495, -7.8000, -1.4000)},
+	["GC_Centre_wood"] = {t = "GLBCentre", o = Vector3.new(3.5684, -21.2000, 3.4949)},
+	["GC_Centre_wood_dark"] = {t = "GLBCentre", o = Vector3.new(-2.0028, -23.4000, -0.2457)},
+	["GC_Dropper_amethyst_glow"] = {t = "GLBDropper", o = Vector3.new(0.0000, -14.7000, 0.0000)},
+	["GC_Dropper_gold_trim"] = {t = "GLBDropper", o = Vector3.new(0.0000, -12.9000, 0.0000)},
+	["GC_Dropper_metal"] = {t = "GLBDropper", o = Vector3.new(0.0000, -15.4000, 0.0000)},
+	["GC_Dropper_rock"] = {t = "GLBDropper", o = Vector3.new(0.0000, -14.2935, 0.0000)},
+	["GC_Dropper_stone_tile"] = {t = "GLBDropper", o = Vector3.new(0.0000, -9.6000, 0.0000)},
+	["GC_HutEast01_amethyst_glow"] = {t = "GLBCentre", o = Vector3.new(31.9991, -9.0400, -10.5825)},
+	["GC_HutEast02_lamp_glow"] = {t = "GLBCentre", o = Vector3.new(36.3334, -9.0400, 3.4291)},
+	["GC_HutEast03_roof"] = {t = "GLBCentre", o = Vector3.new(37.7201, -16.2652, -4.6761)},
+	["GC_HutEast04_roof"] = {t = "GLBCentre", o = Vector3.new(46.2799, -16.2652, -7.3239)},
+	["GC_HutEast05_wood"] = {t = "GLBCentre", o = Vector3.new(42.0000, -15.5667, -6.0000)},
+	["GC_HutEast06_wood_dark"] = {t = "GLBCentre", o = Vector3.new(42.0000, -0.8000, -6.0000)},
+	["GC_HutEast07_wood_dark"] = {t = "GLBCentre", o = Vector3.new(37.6080, -7.6000, 6.8729)},
+	["GC_HutEast08_wood_dark"] = {t = "GLBCentre", o = Vector3.new(31.1066, -7.6000, -14.1445)},
+	["GC_HutEast09_wood_dark"] = {t = "GLBCentre", o = Vector3.new(52.8934, -7.6000, 2.1445)},
+	["GC_HutEast10_wood_dark"] = {t = "GLBCentre", o = Vector3.new(46.3920, -7.6000, -18.8729)},
+	["GC_HutEast11_wood"] = {t = "GLBCentre", o = Vector3.new(45.1473, -7.6000, 4.1743)},
+	["GC_HutEast12_wood"] = {t = "GLBCentre", o = Vector3.new(49.3083, -7.6000, -8.2607)},
+	["GC_HutEast13_wood"] = {t = "GLBCentre", o = Vector3.new(38.8527, -7.6000, -16.1743)},
+	["GC_HutEast14_wood"] = {t = "GLBCentre", o = Vector3.new(32.6674, -7.6000, -10.2833)},
+	["GC_HutEast15_wood"] = {t = "GLBCentre", o = Vector3.new(36.7160, -7.6000, 2.8048)},
+	["GC_HutEast16_wood"] = {t = "GLBCentre", o = Vector3.new(34.6917, -11.7000, -3.7393)},
+	["GC_HutPlateau01_amethyst_glow"] = {t = "GLBCentre", o = Vector3.new(-48.1571, -23.1520, -27.3518)},
+	["GC_HutPlateau02_lamp_glow"] = {t = "GLBCentre", o = Vector3.new(-38.6050, -23.1520, -28.3102)},
+	["GC_HutPlateau03_roof"] = {t = "GLBCentre", o = Vector3.new(-43.6526, -28.9189, -30.5374)},
+	["GC_HutPlateau04_roof"] = {t = "GLBCentre", o = Vector3.new(-44.3474, -28.9189, -37.4626)},
+	["GC_HutPlateau05_wood"] = {t = "GLBCentre", o = Vector3.new(-44.0000, -28.2750, -34.0000)},
+	["GC_HutPlateau06_wood_dark"] = {t = "GLBCentre", o = Vector3.new(-44.0000, -16.4000, -34.0000)},
+	["GC_HutPlateau07_wood_dark"] = {t = "GLBCentre", o = Vector3.new(-36.2370, -22.0000, -28.7488)},
+	["GC_HutPlateau08_wood_dark"] = {t = "GLBCentre", o = Vector3.new(-50.5650, -22.0000, -27.3112)},
+	["GC_HutPlateau09_wood_dark"] = {t = "GLBCentre", o = Vector3.new(-37.4350, -22.0000, -40.6888)},
+	["GC_HutPlateau10_wood_dark"] = {t = "GLBCentre", o = Vector3.new(-51.7630, -22.0000, -39.2512)},
+	["GC_HutPlateau11_wood"] = {t = "GLBCentre", o = Vector3.new(-48.3612, -22.0000, -27.8841)},
+	["GC_HutPlateau12_wood"] = {t = "GLBCentre", o = Vector3.new(-38.5107, -22.0000, -28.8724)},
+	["GC_HutPlateau13_wood"] = {t = "GLBCentre", o = Vector3.new(-43.4359, -26.1000, -28.3782)},
+	["GC_HutPlateau14_wood"] = {t = "GLBCentre", o = Vector3.new(-37.1842, -22.0000, -34.6839)},
+	["GC_HutPlateau15_wood"] = {t = "GLBCentre", o = Vector3.new(-44.5641, -22.0000, -39.6218)},
+	["GC_HutPlateau16_wood"] = {t = "GLBCentre", o = Vector3.new(-50.8158, -22.0000, -33.3161)},
+	["GC_HutWest01_amethyst_glow"] = {t = "GLBCentre", o = Vector3.new(-45.7043, -8.5440, 12.4881)},
+	["GC_HutWest02_lamp_glow"] = {t = "GLBCentre", o = Vector3.new(-42.4056, -8.5440, -0.4307)},
+	["GC_HutWest03_roof"] = {t = "GLBCentre", o = Vector3.new(-47.6593, -15.4652, 5.1084)},
+	["GC_HutWest04_roof"] = {t = "GLBCentre", o = Vector3.new(-56.3407, -15.4652, 2.8916)},
+	["GC_HutWest05_wood"] = {t = "GLBCentre", o = Vector3.new(-52.0000, -14.7667, 4.0000)},
+	["GC_HutWest06_wood_dark"] = {t = "GLBCentre", o = Vector3.new(-52.0000, -0.8000, 4.0000)},
+	["GC_HutWest07_wood_dark"] = {t = "GLBCentre", o = Vector3.new(-41.7747, -7.2000, -3.7099)},
+	["GC_HutWest08_wood_dark"] = {t = "GLBCentre", o = Vector3.new(-46.7227, -7.2000, 15.6684)},
+	["GC_HutWest09_wood_dark"] = {t = "GLBCentre", o = Vector3.new(-57.2773, -7.2000, -7.6684)},
+	["GC_HutWest10_wood_dark"] = {t = "GLBCentre", o = Vector3.new(-62.2253, -7.2000, 11.7099)},
+	["GC_HutWest11_wood"] = {t = "GLBCentre", o = Vector3.new(-54.3874, -7.2000, 13.3500)},
+	["GC_HutWest12_wood"] = {t = "GLBCentre", o = Vector3.new(-46.1588, -7.2000, 12.0452)},
+	["GC_HutWest13_wood"] = {t = "GLBCentre", o = Vector3.new(-43.0168, -7.2000, -0.2600)},
+	["GC_HutWest14_wood"] = {t = "GLBCentre", o = Vector3.new(-44.5878, -11.3000, 5.8926)},
+	["GC_HutWest15_wood"] = {t = "GLBCentre", o = Vector3.new(-49.6126, -7.2000, -5.3500)},
+	["GC_HutWest16_wood"] = {t = "GLBCentre", o = Vector3.new(-59.4122, -7.2000, 2.1074)},
 }
 
 export type MaterialSpec = {material: Enum.Material, variant: string?, color: Color3, transparency: number?, reflectance: number?}
@@ -152,6 +220,22 @@ PrepareAssets.MATERIALS = {
 	["GLB:white"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(242, 239, 232)},
 	["GLB:glow"] = {material = Enum.Material.Neon, color = Color3.fromRGB(255, 198, 74)},
 	["GLB:Cloth"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(196, 52, 46)}, -- recoloured per team
+	-- GLB centre island (Sterling, 2026-10-27): same flat-colour approach, keys "GLBC:<gltf material>"
+	["GLBC:rock"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(156, 133, 113)},
+	["GLBC:rock_dark"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(122, 101, 83)},
+	["GLBC:dirt_path"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(196, 165, 116)},
+	["GLBC:sand"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(220, 196, 147)},
+	["GLBC:grass"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(95, 174, 69)},
+	["GLBC:stone_tile"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(169, 169, 176)},
+	["GLBC:gold_trim"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(242, 193, 78)},
+	["GLBC:metal"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(185, 188, 196)},
+	["GLBC:amethyst_glow"] = {material = Enum.Material.Neon, color = Color3.fromRGB(179, 92, 255)},
+	["GLBC:wood_dark"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(94, 58, 30)},
+	["GLBC:wood"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(154, 98, 51)},
+	["GLBC:roof"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(124, 63, 36)},
+	["GLBC:lamp_glow"] = {material = Enum.Material.Neon, color = Color3.fromRGB(255, 211, 107)},
+	["GLBC:banner"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(125, 60, 201)},
+	["GLBC:leaves"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(47, 125, 58)},
 } :: {[string]: MaterialSpec}
 
 -- Suffixes checked longest first so "_RockDark" wins over "_Rock".
@@ -162,6 +246,12 @@ function PrepareAssets.suffixOf(name: string): string?
 	local glb = string.match(name, "^GI_%a+_(.+)$")
 	if glb then
 		local key = "GLB:" .. glb
+		return if PrepareAssets.MATERIALS[key] then key else nil
+	end
+	-- GLB centre parts are named GC_<Template or HutNameNN>_<gltf material>
+	local glbc = string.match(name, "^GC_%w+_(.+)$")
+	if glbc then
+		local key = "GLBC:" .. glbc
 		return if PrepareAssets.MATERIALS[key] then key else nil
 	end
 	for _, s in ipairs(SUFFIX_ORDER) do
@@ -188,6 +278,7 @@ local function applyCollision(part: MeshPart, suffix: string)
 		or string.find(n, "_Under_") ~= nil
 		or suffix == "Glow" or suffix == "Cloth" or suffix == "Linen" or suffix == "Canvas"
 		or suffix == "GLB:glow" or suffix == "GLB:Cloth" or suffix == "GLB:white"
+		or suffix == "GLBC:lamp_glow" or suffix == "GLBC:banner"
 		or string.find(n, "SignFace") ~= nil or string.find(n, "Lights") ~= nil or string.find(n, "Lamp") ~= nil
 	if decorative then
 		part.CanCollide = false
@@ -201,7 +292,7 @@ local function applyCollision(part: MeshPart, suffix: string)
 		-- islands, rocks, walls and frames need accurate collision; small solid props are fine with hulls
 		-- GLB parts are many boxes joined into one mesh per material: a single hull would wrap them all
 		local precise = suffix == "Rock" or suffix == "Sand" or suffix == "Rust" or suffix == "Steel"
-			or suffix == "Concrete" or suffix == "Wood" or string.sub(suffix, 1, 4) == "GLB:"
+			or suffix == "Concrete" or suffix == "Wood" or string.sub(suffix, 1, 3) == "GLB"
 		part.CollisionFidelity = if precise then Enum.CollisionFidelity.PreciseConvexDecomposition
 			else Enum.CollisionFidelity.Hull
 	end

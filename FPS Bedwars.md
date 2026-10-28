@@ -16,6 +16,7 @@ Competitive multiplayer first-person survival shooter on Roblox. It keeps the Be
 ## Current status
 - **Phase 1: Map.** Built and tested in Studio on 2026-10-25. Waiting for Sterling's review. See [[Phase 1 - Map]].
 - **Phase 1b: GLB team islands.** On 2026-10-27 the team islands were replaced with Sterling's blocky GLB island. Tested and saved. See [[Phase 1b - GLB Team Islands]].
+- **Phase 1c: GLB centre island.** On 2026-10-27 the centre was replaced with Sterling's central-island GLB. It has walk-in huts and the gem dropper as the high-tier dispenser. Tested and saved. See [[Phase 1c - GLB Centre Island]].
 - Next: whatever Sterling picks (bridge building, beds/respawn, shop UI, dispenser economy).
 
 ## Systems
