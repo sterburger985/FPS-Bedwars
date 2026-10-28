@@ -12,7 +12,7 @@ local ServerStorage = game:GetService("ServerStorage")
 
 local MapBuilder = {}
 
-MapBuilder.TEAM_RADIUS = 260
+MapBuilder.TEAM_RADIUS = 285
 MapBuilder.TEAM_TOP_Y = 200
 MapBuilder.CENTER_TOP_Y = 206
 MapBuilder.OCEAN_Y = 0

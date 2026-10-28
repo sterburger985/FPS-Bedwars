@@ -47,7 +47,7 @@ My choice: the island is **rotated 180°** so the banner and fence face the cent
 
 ## Notes
 - The hut is about 13.5 × 15.8 studs, smaller than the original 24 × 24 (2 × 2 grid) spec. This was accepted with the ×1.75 scale. The bed fits with about 3 studs between its foot and the doorway.
-- The islands are smaller than the old ones, so gaps grew a little: base → centre about 112, base → platform about 70. Ring radius is still 260.
+- **Spacing (updated 2026-10-27):** ring radius raised from 260 to 285. Measured gaps edge to edge: base → centre 136, base → platform 63, platform → centre 105.
 - Rojo wasn't running this session, so the Studio modules were patched in place with `multi_edit` and checked byte for byte against `scripts/`.
 
 ![[studio_glb_hut.jpg]]
