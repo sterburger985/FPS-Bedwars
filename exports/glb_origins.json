@@ -1,0 +1,234 @@
+{
+ "GI_Banner_Cloth": {
+  "c": [
+   6.3,
+   -39.725,
+   15.575
+  ],
+  "root": "GLBBanner"
+ },
+ "GI_Banner_dark": {
+  "c": [
+   6.3,
+   -36.4,
+   7.0
+  ],
+  "root": "GLBBanner"
+ },
+ "GI_Banner_glow": {
+  "c": [
+   6.3,
+   -39.9,
+   23.975
+  ],
+  "root": "GLBBanner"
+ },
+ "GI_Banner_metal": {
+  "c": [
+   6.3,
+   -39.9,
+   23.1
+  ],
+  "root": "GLBBanner"
+ },
+ "GI_Banner_white": {
+  "c": [
+   6.3,
+   -39.5587,
+   16.1407
+  ],
+  "root": "GLBBanner"
+ },
+ "GI_Banner_wood_dark": {
+  "c": [
+   6.3,
+   -39.9,
+   11.375
+  ],
+  "root": "GLBBanner"
+ },
+ "GI_Hut_glow": {
+  "c": [
+   35.7493,
+   17.8133,
+   5.8625
+  ],
+  "root": "GLBHut"
+ },
+ "GI_Hut_metal": {
+  "c": [
+   39.9,
+   12.6,
+   4.375
+  ],
+  "root": "GLBHut"
+ },
+ "GI_Hut_rust": {
+  "c": [
+   39.9,
+   12.6,
+   4.5063
+  ],
+  "root": "GLBHut"
+ },
+ "GI_Hut_wood": {
+  "c": [
+   40.1615,
+   14.1217,
+   3.7625
+  ],
+  "root": "GLBHut"
+ },
+ "GI_Hut_wood_dark": {
+  "c": [
+   39.9,
+   12.6,
+   3.7625
+  ],
+  "root": "GLBHut"
+ },
+ "GI_Island_dark": {
+  "c": [
+   45.15,
+   -30.45,
+   15.05
+  ],
+  "root": "GLBIsland"
+ },
+ "GI_Island_glow": {
+  "c": [
+   44.7125,
+   -29.925,
+   15.0413
+  ],
+  "root": "GLBIsland"
+ },
+ "GI_Island_grass": {
+  "c": [
+   0.784,
+   0.8556,
+   -19.0631
+  ],
+  "root": "GLBIsland"
+ },
+ "GI_Island_metal": {
+  "c": [
+   25.55,
+   -37.6469,
+   9.45
+  ],
+  "root": "GLBIsland"
+ },
+ "GI_Island_pine": {
+  "c": [
+   -0.1925,
+   -1.435,
+   8.12
+  ],
+  "root": "GLBIsland"
+ },
+ "GI_Island_rock": {
+  "c": [
+   0.7841,
+   0.856,
+   -27.6395
+  ],
+  "root": "GLBIsland"
+ },
+ "GI_Island_rock_dark": {
+  "c": [
+   1.6341,
+   1.3461,
+   -30.5544
+  ],
+  "root": "GLBIsland"
+ },
+ "GI_Island_rust": {
+  "c": [
+   24.5,
+   -38.4344,
+   8.6625
+  ],
+  "root": "GLBIsland"
+ },
+ "GI_Island_sand": {
+  "c": [
+   0.0,
+   0.0,
+   -0.35
+  ],
+  "root": "GLBIsland"
+ },
+ "GI_Island_wood": {
+  "c": [
+   -2.5281,
+   -7.6249,
+   6.3875
+  ],
+  "root": "GLBIsland"
+ },
+ "GI_Island_wood_dark": {
+  "c": [
+   -0.0263,
+   -1.3825,
+   7.4375
+  ],
+  "root": "GLBIsland"
+ },
+ "GI_Shop_Cloth": {
+  "c": [
+   -35.2334,
+   -32.4287,
+   4.9875
+  ],
+  "root": "GLBShop"
+ },
+ "GI_Shop_dark": {
+  "c": [
+   -32.559,
+   -20.9683,
+   7.2625
+  ],
+  "root": "GLBShop"
+ },
+ "GI_Shop_glow": {
+  "c": [
+   -37.0916,
+   -20.2907,
+   7.2625
+  ],
+  "root": "GLBShop"
+ },
+ "GI_Shop_metal": {
+  "c": [
+   -35.6161,
+   -26.2534,
+   6.0445
+  ],
+  "root": "GLBShop"
+ },
+ "GI_Shop_rust": {
+  "c": [
+   -35.6161,
+   -26.2534,
+   7.8064
+  ],
+  "root": "GLBShop"
+ },
+ "GI_Shop_wood": {
+  "c": [
+   -36.1065,
+   -25.1562,
+   5.3375
+  ],
+  "root": "GLBShop"
+ },
+ "GI_Shop_wood_dark": {
+  "c": [
+   -35.6255,
+   -25.5556,
+   4.9875
+  ],
+  "root": "GLBShop"
+ }
+}
