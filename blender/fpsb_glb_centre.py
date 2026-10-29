@@ -1,20 +1,23 @@
-"""Turns the imported central-island GLB (imports/bedwars-central-island.glb) into Roblox templates.
+"""Turns the imported central-island GLB into Roblox templates.
 
-Decisions (Sterling, 2026-10-27): scale x2, the GLB's gem "dropper" is the high-tier dispenser,
-side island + bridge removed, floating trees/objects fixed, hut doors removed so players can go in.
+v2 (current, Sterling 2026-10-28): imports/bedwars-central-island-v2.glb, scale x1.5 (the v2 island is
+~40% bigger), no neutral shop. Its huts already have open doorways (HOLLOW_HUTS = False).
+v1 (2026-10-27): imports/bedwars-central-island.glb, scale x2, side island + bridge removed, solid
+huts hollowed with the door removed (HOLLOW_HUTS = True).
+Both: the GLB's gem "dropper" is the high-tier dispenser and floating trees/objects are fixed.
 
 Steps
   1. Weld each GLB mesh, split into loose boxes, assign them to a group (name prefix, e.g. "trees").
   2. Drop the side island, the bridge and every prop box that isn't over the main island.
-  3. Huts: the GLB huts are solid blocks with a door panel on the outside. Each hut body is rebuilt
+  3. Huts (v1 only, HOLLOW_HUTS): the GLB huts are solid blocks with a door panel on the outside. Each hut body is rebuilt
      as 4 hollow walls with a doorway where the door panel was; the panel is removed.
   4. Floating props: props are clustered (touching boxes in the same group = one prop, e.g. trunk +
      leaves). Each prop is lowered onto whatever is below its feet; props over nothing are deleted.
-  5. Scale x2 about the GLB origin, put the main top (sand, GLB y 59.6) at Z = 0, join per
+  5. Scale by SCALE about the GLB origin, put the main top (topsoil sand) at Z = 0, join per
      template + material:  GC_Centre_<material>  and  GC_Dropper_<material>;
      hut boxes are one mesh each: GC_Hut<Name><nn>_<material>.
 
-Run in Blender after importing the GLB into collection FPSB_GLBCentre:
+Run in Blender after importing the GLB into collection SRC (v2: FPSB_GLBCentreV2):
   exec(open(r"C:\\Roblox Dev\\FPS Bedwars\\blender\\fpsb_glb_centre.py").read()); build()
 """
 
@@ -26,15 +29,17 @@ import bpy
 from mathutils import Matrix, Vector
 from mathutils.bvhtree import BVHTree
 
-SRC = "FPSB_GLBCentre"
+SRC = "FPSB_GLBCentreV2"          # v1: "FPSB_GLBCentre"
 OUT = "FPSB_GLBCentreTemplates"
-SCALE = 2.0
+SCALE = 1.5                       # v1: 2.0
+HOLLOW_HUTS = False               # v1: True (v1 huts were solid blocks with a door panel)
 MATERIALS = ("rock_dark", "rock", "dirt_path", "sand", "grass", "stone_tile", "gold_trim", "metal",
              "amethyst_glow", "wood_dark", "wood", "roof", "lamp_glow", "banner", "leaves")
 TERRAIN = ("island_underside", "cliffs_ledges", "cliffs", "topsoil", "plateau", "plateau_steps",
            "tower_plinth", "dropper_plaza")
 DROP_GROUPS = ("side_island", "side_island_underside", "bridge")
 HUTS = ("hut_west", "hut_east", "hut_plateau")
+MAX_TRIS = 18000     # per MeshPart (Roblox limit 20,000)
 WALL = 0.35          # hut wall thickness (GLB units)
 EPS = 1e-3
 
@@ -277,7 +282,7 @@ def build():
         if main.ray_cast(Vector((c.x, c.y, 200)), Vector((0, 0, -1)), 400)[0] is None:
             boxes.remove(b)
             off.append(b.group)
-    huts = [hollow_hut(boxes, h) for h in HUTS]
+    huts = [hollow_hut(boxes, h) for h in HUTS] if HOLLOW_HUTS else "kept (GLB doorways already open)"
     moved, deleted = settle(boxes)
 
     # winding check: a closed box wound outward has positive signed volume
@@ -317,9 +322,28 @@ def build():
             hn = "Hut" + "".join(w.capitalize() for w in b.group.split("_")[1:])
             hut_n[hn] = hut_n.get(hn, 0) + 1
             part = f"{hn}{hut_n[hn]:02d}"
-        bm = buckets.setdefault((tmpl, part, b.mat), bmesh.new())
-        for p in b.polys:
-            bm.faces.new([bm.verts.new(xf @ v) for v in p])
+        buckets.setdefault((tmpl, part, b.mat), []).append(b)
+    # Roblox MeshParts take at most 20,000 triangles: split big buckets into strips along X
+    # (GC_CentreA_rock, GC_CentreB_rock, ...). v2's underside rock is ~31k triangles.
+    def tris(bs):
+        return sum(len(p) - 2 for b in bs for p in b.polys)
+    meshes = {}
+    for (tmpl, part, mat), bs in buckets.items():
+        n = math.ceil(tris(bs) / MAX_TRIS)
+        if n <= 1:
+            meshes[(tmpl, part, mat)] = bs
+            continue
+        bs = sorted(bs, key=lambda b: b.centre().x)
+        per = math.ceil(len(bs) / n)
+        for k in range(n):
+            meshes[(tmpl, part + "ABCDEFGH"[k], mat)] = bs[k * per:(k + 1) * per]
+    buckets = {}
+    for key, bs in meshes.items():
+        bm = bmesh.new()
+        for b in bs:
+            for p in b.polys:
+                bm.faces.new([bm.verts.new(xf @ v) for v in p])
+        buckets[key] = bm
     report = {}
     for (tmpl, part, mat), bm in sorted(buckets.items()):
         # no remove_doubles / recalc here: each box keeps the GLB's own (outward) winding, and

@@ -2,56 +2,60 @@
 
 Back to [[FPS Bedwars]]. Previous: [[Phase 1b - GLB Team Islands]]. Decisions: [[FPS Bedwars Decisions]].
 
-**Status:** built, tested and saved to Roblox on 2026-10-27.
+**Status:** v2 built, tested and saved to Roblox on 2026-10-28. It replaced v1 from 2026-10-27.
 
-## What changed
-- The centre island is now Sterling's `imports/bedwars-central-island.glb`, processed by `blender/fpsb_glb_centre.py`:
-  - Scaled ×2.0 (about 187 × 140 studs). The sand top sits at Y 206, the same height as before.
-  - The side island and its bridge were removed, along with 21 props that stood on the side island.
-  - The GLB's three huts were solid blocks. Each hut body is now rebuilt as 4 walls, 0.35 GLB units thick (0.7 studs), with a doorway about 5.4 × 8.2 studs where the door panel was. The door panel is gone, so players can walk in.
-  - Floating props:
-    - Every prop cluster (trees, lamps, crates and so on) was settled onto whatever is below it.
-    - One tree was 7.8 GLB units in the air and was moved down.
-    - Nothing was left hanging over open air, so nothing was deleted.
-- The GLB's **amethyst gem dropper is the high-tier dispenser**. It's tagged `ResourceDispenser`, `Tier = High`, and has a soft purple light. The old cyan dispenser is gone.
-- The **neutral shop** is the team islands' GLB shop with a grey sign. It sits on the open north lawn (centre-local (0, 0, 49)) facing the dropper. The only clear spot is on the side that faces the gap between Green and Yellow.
-- The arch and the 5 cover outcrops are gone. The GLB has its own cover: huts, the watchtower, crates and trees.
-- `MapBuilder.CENTRE_STYLE = "GLB"` picks the new centre. `"Rust"` brings back the old one; its templates are still in `MapAssets`.
+## Current: v2 (2026-10-28)
+- **Source:** Sterling's new `imports/bedwars-central-island-v2.glb`, processed by `blender/fpsb_glb_centre.py`.
+- **Scale ×1.5:** the v2 island is about 40% bigger than v1, so ×1.5 keeps the centre close to its old footprint.
+  - It's about 195 × 153 studs, with the sand top at Y 206.
+  - Edge-to-edge gaps, measured by raycast:
+    - centre → team islands: 138–156
+    - centre → resource platforms: 118–136
+- **Huts:** the three huts already come with open doorways and windows, so the script doesn't cut anything (`HOLLOW_HUTS = False`).
+  - Each hut piece is still exported as its own mesh, so the collision stays exact.
+  - A radial ray scan from inside each hut escapes through the doorway at foot and chest height. Headroom is 13–14 studs.
+- **Floating objects:** the settle pass found nothing floating. No side island or bridge exists in v2.
+- **Gem dropper:** still the high-tier dispenser (`ResourceDispenser`, `Tier = High`, purple light).
+- **No neutral shop** at the centre (Sterling, 2026-10-28). There are now 5 shops, one per team island.
+  - `MapBuilder.LAYOUT_GLB_CENTRE.shop = nil` switches it off.
+  - `MapBuilder.expectedShops()` gives MapChecks the right count.
+  - To bring a centre shop back, set `shop` to a CFrame.
 
 ## How it's made
-1. In Blender, import the GLB into the collection `FPSB_GLBCentre`. Then run:
-   `exec(open(r"C:\Roblox Dev\FPS Bedwars\blender\fpsb_glb_centre.py").read()); build(); export(...)`
-2. The output is `exports/FPSB_GLBCentre.fbx` plus `exports/glbc_origins.json`. Templates:
-   - `GLBCentre`: island, huts, props, plaza
-   - `GLBDropper`: the gem dropper machine
-3. Import 3D the FBX (Anchored), then run `PrepareAssets.run({workspace.FPSB_GLBCentre})`.
-4. Run `MapBuilder.build()`, then `MapChecks.run`.
+1. In Blender, import the GLB into the collection `FPSB_GLBCentreV2`. Then run:
+   `exec(open(r"C:\Roblox Dev\FPS Bedwars\blender\fpsb_glb_centre.py").read()); build(); export(fbx, json)`
+   - Settings at the top of the script: `SRC`, `SCALE`, `HOLLOW_HUTS`, `MAX_TRIS`.
+   - v1 settings were `FPSB_GLBCentre`, 2.0, True.
+2. Outputs:
+   - `exports/FPSB_GLBCentreV2.fbx` and `exports/glbc2_origins.json`
+   - Templates `GLBCentre` (island, huts, props, plaza) and `GLBDropper` (the gem dropper)
+   - Parts: `GC_<Template>_<material>`; hut pieces `GC_Hut<Name><nn>_<material>`
+   - Any mesh over `MAX_TRIS` (18,000; the Roblox limit is 20,000) is split into X strips (`GC_CentreA_rock` …). v2 didn't need it: the largest mesh is 15.6k tris.
+3. Import 3D the FBX (Anchored). Then run `PrepareAssets.run({workspace.FPSB_GLBCentreV2})`, then `MapBuilder.build()`, then `MapChecks.run`.
+   - Materials use the `GLBC:` keys: flat GLB colours (unchanged between v1 and v2).
+   - Lamp glow and the banner don't collide.
 
-Part naming:
-- `GC_<Template>_<material>`: one mesh per material.
-- `GC_Hut<Name><nn>_<material>`: hut boxes, **one mesh per box** (see the collision note below).
-- Materials use the `GLBC:<material>` keys in `PrepareAssets.MATERIALS`: flat GLB colours, SmoothPlastic, glow parts Neon.
-- Lamp glow and the purple banner don't collide.
-
-## Collision lesson
-The first import joined each hut's material into one big mesh. Roblox's PreciseConvexDecomposition then wrapped slanted hulls across the plateau hut's doorway: it looked open, but a player couldn't get in. Splitting the hut boxes into separate meshes fixed it. Each box now collides exactly, and a ray scan of the plateau doorway shows a clean 5.5 × 8 stud opening.
-
-## Test results (2026-10-27)
+## Test results (2026-10-28)
 - **MapChecks: pass.** Counts:
   - Bed 5
-  - Shop 6
+  - Shop 5
   - ResourceDispenser 6, with exactly 1 High
   - SpawnPad 5
   - BuildFloor 6
   - KillHeight 1
-
-  The checks also cover symmetry, build zones, bed access, grounding (dropper and shop included), dispenser clearance and heights.
-- **Playtest walk:**
-  - East hut: in and out, clear.
-  - West hut: in and out, clear.
-  - Plateau hut: up the steps, through the door, to the back wall and out, clear (a jump onto the floor-slab step).
-  - 8-point lap around the dropper: clear. One point stopped 2 studs short at a plaza pillar.
-  - Shop front: clear.
+- **Playtest walk:** every leg reached its target.
+  - East, west and plateau huts: outside → doorway → middle → back wall → out.
+  - 8-point lap around the dropper.
 - Saved to Roblox.
+
+![[studio_glb_centre_v2.jpg]]
+
+## History: v1 (2026-10-27)
+- **Source:** `imports/bedwars-central-island.glb` at ×2 (about 187 × 140 studs), with a neutral shop on the north lawn.
+- **Changes made in Blender:**
+  - Side island and bridge removed.
+  - One floating tree lowered.
+  - The solid huts were rebuilt as 4 walls with a doorway where the door panel was.
+- **Collision lesson:** with each hut material joined into one mesh, PreciseConvexDecomposition wrapped slanted hulls across the plateau hut's doorway. Exporting one mesh per hut box fixed it, and v2 keeps that rule.
 
 ![[studio_glb_centre.jpg]]

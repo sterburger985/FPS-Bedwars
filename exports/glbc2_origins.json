@@ -1,0 +1,658 @@
+{
+ "GC_Centre_banner": {
+  "c": [
+   51.0,
+   35.1,
+   22.5
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_Centre_dirt_path": {
+  "c": [
+   3.0,
+   -3.0,
+   -0.45
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_Centre_gold_trim": {
+  "c": [
+   19.9553,
+   11.415,
+   13.0853
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_Centre_grass": {
+  "c": [
+   3.0,
+   -3.0,
+   5.4
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_Centre_lamp_glow": {
+  "c": [
+   16.8,
+   10.8,
+   21.555
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_Centre_leaves": {
+  "c": [
+   -1.5486,
+   1.7023,
+   9.6009
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_Centre_metal": {
+  "c": [
+   6.75,
+   5.4,
+   2.4
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_Centre_rock": {
+  "c": [
+   -2.8948,
+   0.0538,
+   -38.2199
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_Centre_rock_dark": {
+  "c": [
+   -2.899,
+   -0.3249,
+   -39.6945
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_Centre_roof": {
+  "c": [
+   51.0,
+   39.0,
+   37.5
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_Centre_sand": {
+  "c": [
+   3.0,
+   -3.0,
+   -0.45
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_Centre_stone_tile": {
+  "c": [
+   7.8,
+   15.3,
+   5.85
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_Centre_wood": {
+  "c": [
+   5.6794,
+   -3.3721,
+   15.9
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_Centre_wood_dark": {
+  "c": [
+   -1.5392,
+   0.2363,
+   17.55
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast01_lamp_glow": {
+  "c": [
+   40.6917,
+   0.7393,
+   10.5
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast02_roof": {
+  "c": [
+   44.0736,
+   1.7854,
+   13.8086
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast03_roof": {
+  "c": [
+   51.9264,
+   4.2146,
+   13.8086
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast04_wood": {
+  "c": [
+   41.1932,
+   0.8944,
+   6.3
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast05_wood": {
+  "c": [
+   54.8068,
+   5.1056,
+   6.3
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast06_wood": {
+  "c": [
+   50.7705,
+   -5.9563,
+   6.3
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast07_wood": {
+  "c": [
+   45.2295,
+   11.9563,
+   6.3
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast08_wood": {
+  "c": [
+   50.7705,
+   -5.9563,
+   11.9122
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast09_wood": {
+  "c": [
+   45.2295,
+   11.9563,
+   11.9122
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast10_wood": {
+  "c": [
+   50.7705,
+   -5.9563,
+   12.9365
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast11_wood": {
+  "c": [
+   45.2295,
+   11.9563,
+   12.9365
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast12_wood": {
+  "c": [
+   50.7705,
+   -5.9563,
+   13.9608
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast13_wood": {
+  "c": [
+   45.2295,
+   11.9563,
+   13.9608
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast14_wood": {
+  "c": [
+   50.7705,
+   -5.9563,
+   14.9851
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast15_wood": {
+  "c": [
+   45.2295,
+   11.9563,
+   14.9851
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast16_wood_dark": {
+  "c": [
+   48.0,
+   3.0,
+   0.6
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast17_wood_dark": {
+  "c": [
+   43.7163,
+   -8.5309,
+   6.3
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast18_wood_dark": {
+  "c": [
+   37.9537,
+   10.0981,
+   6.3
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast19_wood_dark": {
+  "c": [
+   58.0463,
+   -4.0981,
+   6.3
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast20_wood_dark": {
+  "c": [
+   52.2837,
+   14.5309,
+   6.3
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutEast21_wood_dark": {
+  "c": [
+   40.835,
+   0.7836,
+   9.9
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau01_lamp_glow": {
+  "c": [
+   -51.886,
+   34.0807,
+   21.6
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau02_roof": {
+  "c": [
+   -52.1646,
+   36.8568,
+   24.4989
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau03_roof": {
+  "c": [
+   -52.8354,
+   43.5432,
+   24.4989
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau04_wood": {
+  "c": [
+   -51.9384,
+   34.6031,
+   17.7
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau05_wood": {
+  "c": [
+   -53.0616,
+   45.7969,
+   17.7
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau06_wood": {
+  "c": [
+   -45.4106,
+   40.9113,
+   17.7
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau07_wood": {
+  "c": [
+   -59.5894,
+   39.4887,
+   17.7
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau08_wood": {
+  "c": [
+   -45.4106,
+   40.9113,
+   22.9097
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau09_wood": {
+  "c": [
+   -59.5894,
+   39.4887,
+   22.9097
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau10_wood": {
+  "c": [
+   -45.4106,
+   40.9113,
+   23.7292
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau11_wood": {
+  "c": [
+   -59.5894,
+   39.4887,
+   23.7292
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau12_wood": {
+  "c": [
+   -45.4106,
+   40.9113,
+   24.5486
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau13_wood": {
+  "c": [
+   -59.5894,
+   39.4887,
+   24.5486
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau14_wood": {
+  "c": [
+   -45.4106,
+   40.9113,
+   25.3681
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau15_wood": {
+  "c": [
+   -59.5894,
+   39.4887,
+   25.3681
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau16_wood_dark": {
+  "c": [
+   -52.5,
+   40.2,
+   12.3
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau17_wood_dark": {
+  "c": [
+   -44.4385,
+   34.9787,
+   17.7
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau18_wood_dark": {
+  "c": [
+   -59.3635,
+   33.4812,
+   17.7
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau19_wood_dark": {
+  "c": [
+   -45.6365,
+   46.9188,
+   17.7
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau20_wood_dark": {
+  "c": [
+   -60.5615,
+   45.4213,
+   17.7
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutPlateau21_wood_dark": {
+  "c": [
+   -51.901,
+   34.23,
+   21.6
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest01_lamp_glow": {
+  "c": [
+   -49.5878,
+   -4.8926,
+   10.5
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest02_roof": {
+  "c": [
+   -53.0178,
+   -4.0168,
+   13.8086
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest03_roof": {
+  "c": [
+   -60.9822,
+   -1.9832,
+   13.8086
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest04_wood": {
+  "c": [
+   -50.0965,
+   -4.7628,
+   6.3
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest05_wood": {
+  "c": [
+   -63.9035,
+   -1.2372,
+   6.3
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest06_wood": {
+  "c": [
+   -54.8661,
+   5.3569,
+   6.3
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest07_wood": {
+  "c": [
+   -59.1339,
+   -11.3569,
+   6.3
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest08_wood": {
+  "c": [
+   -54.8661,
+   5.3569,
+   11.9122
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest09_wood": {
+  "c": [
+   -59.1339,
+   -11.3569,
+   11.9122
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest10_wood": {
+  "c": [
+   -54.8661,
+   5.3569,
+   12.9365
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest11_wood": {
+  "c": [
+   -59.1339,
+   -11.3569,
+   12.9365
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest12_wood": {
+  "c": [
+   -54.8661,
+   5.3569,
+   13.9608
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest13_wood": {
+  "c": [
+   -59.1339,
+   -11.3569,
+   13.9608
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest14_wood": {
+  "c": [
+   -54.8661,
+   5.3569,
+   14.9851
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest15_wood": {
+  "c": [
+   -59.1339,
+   -11.3569,
+   14.9851
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest16_wood_dark": {
+  "c": [
+   -57.0,
+   -3.0,
+   0.6
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest17_wood_dark": {
+  "c": [
+   -47.5065,
+   3.8647,
+   6.3
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest18_wood_dark": {
+  "c": [
+   -51.9598,
+   -13.5757,
+   6.3
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest19_wood_dark": {
+  "c": [
+   -62.0402,
+   7.5757,
+   6.3
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest20_wood_dark": {
+  "c": [
+   -66.4935,
+   -9.8647,
+   6.3
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_HutWest21_wood_dark": {
+  "c": [
+   -49.7332,
+   -4.8555,
+   9.9
+  ],
+  "root": "GLBCentre"
+ },
+ "GC_Dropper_amethyst_glow": {
+  "c": [
+   0.0,
+   0.0,
+   11.025
+  ],
+  "root": "GLBDropper"
+ },
+ "GC_Dropper_gold_trim": {
+  "c": [
+   0.0,
+   0.0,
+   9.675
+  ],
+  "root": "GLBDropper"
+ },
+ "GC_Dropper_metal": {
+  "c": [
+   0.0,
+   0.0,
+   11.55
+  ],
+  "root": "GLBDropper"
+ },
+ "GC_Dropper_rock": {
+  "c": [
+   0.0,
+   0.0,
+   10.0815
+  ],
+  "root": "GLBDropper"
+ },
+ "GC_Dropper_stone_tile": {
+  "c": [
+   0.0,
+   0.0,
+   7.2
+  ],
+  "root": "GLBDropper"
+ }
+}

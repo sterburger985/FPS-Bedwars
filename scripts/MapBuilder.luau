@@ -62,17 +62,24 @@ MapBuilder.LAYOUT_RUST = {
 	},
 }
 
--- Which centre island to build: "GLB" = Sterling's central-island GLB (imports/bedwars-central-island.glb,
--- 2026-10-27, scaled x2, side island removed, hut doors removed), "Rust" = the original generated centre.
+-- Which centre island to build: "GLB" = Sterling's central-island GLB (v2: imports/bedwars-central-island-v2.glb,
+-- 2026-10-28, scaled x1.5, huts with open doorways), "Rust" = the original generated centre.
 MapBuilder.CENTRE_STYLE = "GLB"
 
 -- Centre-local layout for the GLB centre (studs, origin = sand top at the map centre).
 MapBuilder.LAYOUT_GLB_CENTRE = {
-	-- the only clear flat spot for the neutral shop: north lawn, facing the gap between Green and Yellow
-	shop = CFrame.new(0, 0, 49) * CFrame.Angles(0, math.pi, 0),
+	-- Neutral shop at the centre: off for v2 (Sterling, 2026-10-28). Set to a CFrame to bring one back
+	-- (v1 used CFrame.new(0, 0, 49) * CFrame.Angles(0, math.pi, 0)).
+	shop = nil :: CFrame?,
 	-- GLBShop's pivot is the team-island centre; this moves the stall itself onto the shop point
 	shopFromPivot = CFrame.new(-35.56, 0, 25.56),
 }
+
+-- Number of shops the map should have (MapChecks reads this): one per team, plus the centre's if any.
+function MapBuilder.expectedShops(): number
+	local centreShop = MapBuilder.CENTRE_STYLE ~= "GLB" or MapBuilder.LAYOUT_GLB_CENTRE.shop ~= nil
+	return #MapBuilder.TEAMS + (if centreShop then 1 else 0)
+end
 
 -- The active layout (MapChecks reads this).
 MapBuilder.LAYOUT = if MapBuilder.TEAM_STYLE == "GLB" then MapBuilder.LAYOUT_GLB else MapBuilder.LAYOUT_RUST
@@ -339,25 +346,7 @@ local function buildTeamIsland(parent: Instance, index: number, team: {name: str
 	spawnPad(f, cf, team.name, team.color)
 end
 
-local function buildGLBCentre(parent: Instance)
-	local L = MapBuilder.LAYOUT_GLB_CENTRE
-	local cf = CFrame.new(0, MapBuilder.CENTER_TOP_Y, 0)
-	local f = folder("Center", parent)
-
-	local island = place("GLBCentre", cf, f, "Island")
-	eachPart(island, "_lamp_glow", function(p)
-		addLight(p, Color3.fromRGB(255, 211, 140), 10, 0.6)
-	end)
-
-	-- the GLB's own amethyst gem dropper is the high-tier dispenser
-	local disp = place("GLBDropper", cf, f, "CenterDispenser")
-	eachPart(disp, "_amethyst_glow", function(p)
-		addLight(p, Color3.fromRGB(179, 92, 255), 14, 0.6) -- restrained, like the old cyan core
-	end)
-	tag(disp, "ResourceDispenser", {Tier = "High"})
-
-	-- neutral shop: the team islands' GLB shop with a grey sign
-	local shopCf = cf * L.shop * L.shopFromPivot
+local function buildGLBCentreShop(f: Instance, shopCf: CFrame)
 	local shop = place("GLBShop", shopCf, f, "Shop")
 	eachPart(shop, "_Cloth", function(p)
 		p.Color = NEUTRAL_SIGN
@@ -384,6 +373,29 @@ local function buildGLBCentre(parent: Instance)
 		gui.Face = S.face
 	end
 	tag(shop, "Shop", {Team = "Neutral"})
+end
+
+local function buildGLBCentre(parent: Instance)
+	local L = MapBuilder.LAYOUT_GLB_CENTRE
+	local cf = CFrame.new(0, MapBuilder.CENTER_TOP_Y, 0)
+	local f = folder("Center", parent)
+
+	local island = place("GLBCentre", cf, f, "Island")
+	eachPart(island, "_lamp_glow", function(p)
+		addLight(p, Color3.fromRGB(255, 211, 140), 10, 0.6)
+	end)
+
+	-- the GLB's own amethyst gem dropper is the high-tier dispenser
+	local disp = place("GLBDropper", cf, f, "CenterDispenser")
+	eachPart(disp, "_amethyst_glow", function(p)
+		addLight(p, Color3.fromRGB(179, 92, 255), 14, 0.6) -- restrained, like the old cyan core
+	end)
+	tag(disp, "ResourceDispenser", {Tier = "High"})
+
+	-- neutral shop (optional): the team islands' GLB shop with a grey sign
+	if L.shop then
+		buildGLBCentreShop(f, cf * L.shop * L.shopFromPivot)
+	end
 
 	buildFloor(f, cf, {center = Vector3.zero, size = Vector3.new(96, 0, 96)})
 end

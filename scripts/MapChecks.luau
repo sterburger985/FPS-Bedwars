@@ -49,7 +49,7 @@ function MapChecks.run(MapBuilder: any): {pass: boolean, failures: {string}, sta
 	local rp = params()
 
 	-- 1. counts
-	local expected = {Bed = 5, Shop = 6, ResourceDispenser = 6, SpawnPad = 5, BuildFloor = 6, KillHeight = 1}
+	local expected = {Bed = 5, Shop = MapBuilder.expectedShops(), ResourceDispenser = 6, SpawnPad = 5, BuildFloor = 6, KillHeight = 1}
 	for t, n in pairs(expected) do
 		local got = #tagged(t)
 		stats["count_" .. t] = got
