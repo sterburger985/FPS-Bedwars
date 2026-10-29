@@ -117,6 +117,21 @@ local ORIGINS: {[string]: {t: string, o: Vector3}} = {
 	["GI_Shop_rust"] = {t = "GLBShop", o = Vector3.new(-35.6161, -7.8064, 26.2534)},
 	["GI_Shop_wood"] = {t = "GLBShop", o = Vector3.new(-36.1065, -5.3375, 25.1562)},
 	["GI_Shop_wood_dark"] = {t = "GLBShop", o = Vector3.new(-35.6255, -4.9875, 25.5556)},
+	-- GLB dispenser island (imports/bedwars-dispenser-island.obj via blender/fpsb_glb_dispenser.py, glbd_origins.json)
+	["GP_Dispenser_gold_glow"] = {t = "GLBDispenser", o = Vector3.new(0.0000, -7.1800, 0.0000)},
+	["GP_Dispenser_gold_trim"] = {t = "GLBDispenser", o = Vector3.new(0.0000, -7.5350, 0.0000)},
+	["GP_Dispenser_iron_ingot"] = {t = "GLBDispenser", o = Vector3.new(1.3645, -13.6600, -1.4135)},
+	["GP_Dispenser_metal"] = {t = "GLBDispenser", o = Vector3.new(0.0000, -8.0600, 0.0000)},
+	["GP_Dispenser_stone_dark"] = {t = "GLBDispenser", o = Vector3.new(0.0000, -6.6600, 0.0000)},
+	["GP_Dispenser_stone_tile"] = {t = "GLBDispenser", o = Vector3.new(0.0000, -7.3100, 0.0000)},
+	["GP_Platform_gold_glow"] = {t = "GLBPlatform", o = Vector3.new(0.0000, -6.6200, 0.0000)},
+	["GP_Platform_gold_trim"] = {t = "GLBPlatform", o = Vector3.new(0.0000, -2.7750, 0.0000)},
+	["GP_Platform_iron_ingot"] = {t = "GLBPlatform", o = Vector3.new(12.0000, -1.9600, 9.2000)},
+	["GP_Platform_rock"] = {t = "GLBPlatform", o = Vector3.new(0.1012, 22.7889, -0.0299)},
+	["GP_Platform_rock_dark"] = {t = "GLBPlatform", o = Vector3.new(-0.2065, 22.0920, 0.0586)},
+	["GP_Platform_stone_dark"] = {t = "GLBPlatform", o = Vector3.new(0.0000, 0.3400, 0.0000)},
+	["GP_Platform_stone_tile"] = {t = "GLBPlatform", o = Vector3.new(0.0000, 2.1400, 0.0000)},
+	["GP_Platform_wood"] = {t = "GLBPlatform", o = Vector3.new(-0.4719, -1.8600, 0.2672)},
 	-- GLB centre island v2 (imports/bedwars-central-island-v2.glb, x1.5, via blender/fpsb_glb_centre.py, glbc2_origins.json)
 	["GC_Centre_banner"] = {t = "GLBCentre", o = Vector3.new(51.0000, -22.5000, -35.1000)},
 	["GC_Centre_dirt_path"] = {t = "GLBCentre", o = Vector3.new(3.0000, 0.4500, 3.0000)},
@@ -235,6 +250,16 @@ PrepareAssets.MATERIALS = {
 	["GLB:white"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(242, 239, 232)},
 	["GLB:glow"] = {material = Enum.Material.Neon, color = Color3.fromRGB(255, 198, 74)},
 	["GLB:Cloth"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(196, 52, 46)}, -- recoloured per team
+	-- GLB dispenser island (Sterling, 2026-10-28): flat colours from the .mtl Kd (linear -> sRGB), keys "GLBP:<material>"
+	["GLBP:rock_dark"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(122, 101, 83)},
+	["GLBP:rock"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(156, 133, 113)},
+	["GLBP:stone_dark"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(126, 127, 135)},
+	["GLBP:stone_tile"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(169, 169, 176)},
+	["GLBP:gold_trim"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(242, 193, 78)},
+	["GLBP:gold_glow"] = {material = Enum.Material.Neon, color = Color3.fromRGB(255, 210, 94)},
+	["GLBP:metal"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(185, 188, 196)},
+	["GLBP:iron_ingot"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(215, 218, 224)},
+	["GLBP:wood"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(154, 98, 51)},
 	-- GLB centre island (Sterling, 2026-10-27): same flat-colour approach, keys "GLBC:<gltf material>"
 	["GLBC:rock"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(156, 133, 113)},
 	["GLBC:rock_dark"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(122, 101, 83)},
@@ -261,6 +286,12 @@ function PrepareAssets.suffixOf(name: string): string?
 	local glb = string.match(name, "^GI_%a+_(.+)$")
 	if glb then
 		local key = "GLB:" .. glb
+		return if PrepareAssets.MATERIALS[key] then key else nil
+	end
+	-- GLB dispenser-island parts are named GP_<Template>_<material>
+	local glbp = string.match(name, "^GP_%a+_(.+)$")
+	if glbp then
+		local key = "GLBP:" .. glbp
 		return if PrepareAssets.MATERIALS[key] then key else nil
 	end
 	-- GLB centre parts are named GC_<Template or HutNameNN>_<gltf material>
@@ -294,6 +325,7 @@ local function applyCollision(part: MeshPart, suffix: string)
 		or suffix == "Glow" or suffix == "Cloth" or suffix == "Linen" or suffix == "Canvas"
 		or suffix == "GLB:glow" or suffix == "GLB:Cloth" or suffix == "GLB:white"
 		or suffix == "GLBC:lamp_glow" or suffix == "GLBC:banner"
+		or suffix == "GLBP:gold_glow"
 		or string.find(n, "SignFace") ~= nil or string.find(n, "Lights") ~= nil or string.find(n, "Lamp") ~= nil
 	if decorative then
 		part.CanCollide = false

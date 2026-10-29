@@ -1,0 +1,114 @@
+{
+ "GP_Dispenser_gold_glow": {
+  "c": [
+   0.0,
+   0.0,
+   7.18
+  ],
+  "root": "GLBDispenser"
+ },
+ "GP_Dispenser_gold_trim": {
+  "c": [
+   0.0,
+   0.0,
+   7.535
+  ],
+  "root": "GLBDispenser"
+ },
+ "GP_Dispenser_iron_ingot": {
+  "c": [
+   1.3645,
+   1.4135,
+   13.66
+  ],
+  "root": "GLBDispenser"
+ },
+ "GP_Dispenser_metal": {
+  "c": [
+   0.0,
+   0.0,
+   8.06
+  ],
+  "root": "GLBDispenser"
+ },
+ "GP_Dispenser_stone_dark": {
+  "c": [
+   0.0,
+   0.0,
+   6.66
+  ],
+  "root": "GLBDispenser"
+ },
+ "GP_Dispenser_stone_tile": {
+  "c": [
+   0.0,
+   0.0,
+   7.31
+  ],
+  "root": "GLBDispenser"
+ },
+ "GP_Platform_gold_glow": {
+  "c": [
+   0.0,
+   0.0,
+   6.62
+  ],
+  "root": "GLBPlatform"
+ },
+ "GP_Platform_gold_trim": {
+  "c": [
+   0.0,
+   0.0,
+   2.775
+  ],
+  "root": "GLBPlatform"
+ },
+ "GP_Platform_iron_ingot": {
+  "c": [
+   12.0,
+   -9.2,
+   1.96
+  ],
+  "root": "GLBPlatform"
+ },
+ "GP_Platform_rock": {
+  "c": [
+   0.1012,
+   0.0299,
+   -22.7889
+  ],
+  "root": "GLBPlatform"
+ },
+ "GP_Platform_rock_dark": {
+  "c": [
+   -0.2065,
+   -0.0586,
+   -22.092
+  ],
+  "root": "GLBPlatform"
+ },
+ "GP_Platform_stone_dark": {
+  "c": [
+   0.0,
+   0.0,
+   -0.34
+  ],
+  "root": "GLBPlatform"
+ },
+ "GP_Platform_stone_tile": {
+  "c": [
+   0.0,
+   0.0,
+   -2.14
+  ],
+  "root": "GLBPlatform"
+ },
+ "GP_Platform_wood": {
+  "c": [
+   -0.4719,
+   -0.2672,
+   1.86
+  ],
+  "root": "GLBPlatform"
+ }
+}

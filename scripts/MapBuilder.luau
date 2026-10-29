@@ -75,6 +75,10 @@ MapBuilder.LAYOUT_GLB_CENTRE = {
 	shopFromPivot = CFrame.new(-35.56, 0, 25.56),
 }
 
+-- Which resource platforms to build: "GLB" = Sterling's dispenser island (imports/bedwars-dispenser-island.obj,
+-- 2026-10-28, x1, fake dispensed items removed), "Rust" = the original generated concrete platform.
+MapBuilder.PLATFORM_STYLE = "GLB"
+
 -- Number of shops the map should have (MapChecks reads this): one per team, plus the centre's if any.
 function MapBuilder.expectedShops(): number
 	local centreShop = MapBuilder.CENTRE_STYLE ~= "GLB" or MapBuilder.LAYOUT_GLB_CENTRE.shop ~= nil
@@ -455,7 +459,21 @@ local function buildPlatforms(parent: Instance)
 		-- half-angle between neighbours (wrap-safe)
 		local mid = a.angle - 36
 		local cf = MapBuilder.facingCentre(MapBuilder.ringPoint(r, mid, MapBuilder.TEAM_TOP_Y))
-		local plat = place("ResourcePlatform", cf, f, "RP_" .. a.name .. b.name)
+		local name = "RP_" .. a.name .. b.name
+		if MapBuilder.PLATFORM_STYLE == "GLB" then
+			-- Sterling's dispenser island (imports/bedwars-dispenser-island.obj, 2026-10-28)
+			local plat = place("GLBPlatform", cf, f, name)
+			eachPart(plat, "_gold_glow", function(p)
+				addLight(p, Color3.fromRGB(255, 205, 120), 8, 0.5) -- corner lamps
+			end)
+			local disp = place("GLBDispenser", cf, plat, "ResourceDispenser")
+			eachPart(disp, "_gold_glow", function(p)
+				addLight(p, AMBER, 10, 0.6)
+			end)
+			tag(disp, "ResourceDispenser", {Tier = "Basic"})
+			continue
+		end
+		local plat = place("ResourcePlatform", cf, f, name)
 		local disp = place("ResourceDispenser", cf, plat, "ResourceDispenser")
 		eachPart(disp, "Core_Glow", function(p)
 			p.Color = AMBER
