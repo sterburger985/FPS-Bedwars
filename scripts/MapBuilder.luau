@@ -10,6 +10,8 @@ local CollectionService = game:GetService("CollectionService")
 local Lighting = game:GetService("Lighting")
 local ServerStorage = game:GetService("ServerStorage")
 
+local MapKit = require(script.Parent:WaitForChild("MapKit"))
+
 local MapBuilder = {}
 
 MapBuilder.TEAM_RADIUS = 285
@@ -20,11 +22,11 @@ MapBuilder.KILL_Y = 60
 MapBuilder.GRID = 12
 
 MapBuilder.TEAMS = {
-	{name = "Red", angle = 90, color = Color3.fromRGB(196, 52, 46)},
-	{name = "Blue", angle = 18, color = Color3.fromRGB(46, 98, 196)},
-	{name = "Green", angle = -54, color = Color3.fromRGB(60, 150, 64)},
-	{name = "Yellow", angle = -126, color = Color3.fromRGB(214, 176, 44)},
-	{name = "Purple", angle = 162, color = Color3.fromRGB(128, 64, 180)},
+	{name = "Red", angle = 90, color = Color3.fromRGB(196, 52, 46), brick = "Bright red"},
+	{name = "Blue", angle = 18, color = Color3.fromRGB(46, 98, 196), brick = "Bright blue"},
+	{name = "Green", angle = -54, color = Color3.fromRGB(60, 150, 64), brick = "Bright green"},
+	{name = "Yellow", angle = -126, color = Color3.fromRGB(214, 176, 44), brick = "Bright yellow"},
+	{name = "Purple", angle = 162, color = Color3.fromRGB(128, 64, 180), brick = "Royal purple"},
 }
 
 local AMBER = Color3.fromRGB(255, 170, 60)
@@ -37,14 +39,49 @@ local NEUTRAL_SIGN = Color3.fromRGB(120, 124, 130)
 MapBuilder.TEAM_STYLE = "GLB"
 
 -- Island-local layout for the GLB island (studs, local -Z faces the centre).
--- GLB (x, z) maps to island-local (1.75x, 1.75z): see blender/fpsb_glb_island.py.
+-- Upgrade 2026-10-28 (design board "FPS Bedwars Map Upgrade Plan", Sterling's changes): the 2 x 2 starter
+-- building and bed sit dead centre, the team spawns at its bed, the banner moved to the back edge.
+-- Cover, ledge and rock spots were ray-checked on the island (flat ground, no props in the way).
 MapBuilder.LAYOUT_GLB = {
 	buildZone = {center = Vector3.new(0, 0, 0), size = Vector3.new(120, 0, 96)},
-	spawn = Vector3.new(0, 0, 2),
-	bed = CFrame.new(-39.9, 0.53, 10.9) * CFrame.Angles(0, math.pi, 0), -- headboard against the wall opposite the door
-	bedCheckFrom = Vector3.new(-39.1, 3, 20.8),  -- 3 studs outside the hut doorway (doorway faces +Z)
+	starter = CFrame.new(0, 0, 0),               -- KitStarter, on the 12-stud grid, doorway faces the centre (-Z)
+	bed = CFrame.new(0, 0.4, 6.6),               -- inside the starter (relative to it), headboard on the back wall
+	spawn = Vector3.new(0, 0.4, -4),             -- the team spawn: inside, in front of the bed
+	bedCheckFrom = Vector3.new(0, 3, -15),       -- 3 studs outside the doorway
+	shop = CFrame.new(36, 0, -24) * CFrame.Angles(0, math.pi / 2, 0), -- KitShop, counter faces the island middle
+	banner = CFrame.new(0, 0, 74.8),             -- GLB banner moved from the front (z -37.4) to the back (z +37.4)
 	shopSign = {cframe = CFrame.new(32.56, 7.26, -20.38), size = Vector3.new(7.4, 2.0, 0.1), face = Enum.NormalId.Back},
+	cover = {
+		{kind = "CoverWall", cf = CFrame.new(-31, 0, -47)}, -- flanks the GLB's tall front fence (x -22..2)
+		{kind = "CoverWall", cf = CFrame.new(26, 0, -47)},
+		{kind = "CoverRock", cf = CFrame.new(60, 0, -24)},
+		{kind = "CoverBarricade", cf = CFrame.new(-57.6, 0.96, -6.6) * CFrame.Angles(0, math.rad(90), 0)},
+		{kind = "CoverBarricade", cf = CFrame.new(62, 0, 8) * CFrame.Angles(0, math.rad(90), 0)},
+		{kind = "CoverCrates", cf = CFrame.new(53.2, 1.09, 42.8)},
+	},
+	ledges = {
+		{cf = CFrame.new(-20, 0.62, 48), size = Vector3.new(20, 1.5, 2.6)},
+		{cf = CFrame.new(25, 0, 48), size = Vector3.new(20, 2.2, 2.6)},
+		{cf = CFrame.new(-61.6, 0, 6), size = Vector3.new(2.6, 1.2, 12)},
+		{cf = CFrame.new(61.6, 0, -17), size = Vector3.new(2.6, 1.8, 12)},
+	},
+	rimRocks = {
+		{kind = "RimRockB", cf = CFrame.new(10, 0, -48.5) * CFrame.Angles(0, math.rad(30), 0)},
+		{kind = "RimRockA", cf = CFrame.new(61.2, 0, 23.8) * CFrame.Angles(0, math.rad(-20), 0)},
+		{kind = "RimRockB", cf = CFrame.new(-62, 0, -30)},
+		{kind = "RimRockA", cf = CFrame.new(0.2, 0, 47.7) * CFrame.Angles(0, math.rad(45), 0)},
+	},
 }
+
+-- Cover on the centre island, off the Red and Green approach lines (the other approaches already have
+-- the GLB's rocks, huts and watchtower).
+MapBuilder.CENTRE_COVER = {
+	{kind = "CoverWall", cf = CFrame.new(14, 0, -56)},
+	{kind = "CoverBarricade", cf = CFrame.new(22.3, 0, 59.5) * CFrame.Angles(0, math.rad(36), 0)},
+}
+
+-- Amethyst Beacon (the high-tier dispenser): dropper scale and the light column.
+MapBuilder.BEACON = {scale = 1.3, columnHeight = 60}
 
 MapBuilder.LAYOUT_RUST = {
 	buildZone = {center = Vector3.new(0, 0, 6), size = Vector3.new(120, 0, 96)},
@@ -210,16 +247,20 @@ local function buildFloor(parent: Instance, cf: CFrame, zone: {center: Vector3, 
 	p.Parent = parent
 end
 
-local function spawnPad(parent: Instance, cf: CFrame, team: string, color: Color3)
+local function spawnPad(parent: Instance, cf: CFrame, team: string, color: Color3, brick: string?)
 	local s = Instance.new("SpawnLocation")
 	s.Name = "SpawnPad"
 	s.Anchored = true
-	s.Size = Vector3.new(8, 1, 8)
+	s.Size = Vector3.new(6, 1, 6)
 	s.CFrame = cf * CFrame.new(MapBuilder.LAYOUT.spawn or Vector3.new(0, 0, 2)) * CFrame.new(0, -0.45, 0)
-	s.Material = Enum.Material.Concrete
-	s.MaterialVariant = "FPSB_Concrete"
-	s.Color = Color3.fromRGB(205, 203, 198)
-	s.Neutral = true -- team assignment arrives with the team system
+	s.Material = Enum.Material.Plastic
+	s.TopSurface = Enum.SurfaceType.Studs
+	s.Color = Color3.fromRGB(226, 222, 214)
+	-- the team spawns only at its own bed (Teams are created by setupTeams)
+	s.Neutral = brick == nil
+	if brick then
+		s.TeamColor = BrickColor.new(brick)
+	end
 	s.AllowTeamChangeOnTouch = false
 	s.Duration = 0
 	for _, d in ipairs(s:GetChildren()) do
@@ -233,8 +274,8 @@ local function spawnPad(parent: Instance, cf: CFrame, team: string, color: Color
 	ring.Anchored = true
 	ring.CanCollide = false
 	ring.CanQuery = false
-	ring.Size = Vector3.new(8.6, 0.9, 8.6)
-	ring.CFrame = s.CFrame * CFrame.new(0, -0.02, 0)
+	ring.Size = Vector3.new(6.8, 0.92, 6.8)
+	ring.CFrame = s.CFrame * CFrame.new(0, -0.03, 0)
 	ring.Material = Enum.Material.Metal
 	ring.Color = color
 	ring.Parent = s
@@ -242,60 +283,54 @@ local function spawnPad(parent: Instance, cf: CFrame, team: string, color: Color
 	s.Parent = parent
 end
 
-local function buildGLBTeamIsland(parent: Instance, team: {name: string, angle: number, color: Color3})
+local function buildGLBTeamIsland(parent: Instance, team: {name: string, angle: number, color: Color3, brick: string})
 	local L = MapBuilder.LAYOUT_GLB
 	local cf = MapBuilder.teamCFrame(team.name)
 	local f = folder(team.name, parent)
 	f:SetAttribute("Team", team.name)
 
 	place("GLBIsland", cf, f, "Island")
+	place("UXTeam", cf, f, "Underside")
 
-	-- the GLB's own bed hut (door removed) is the starter building
-	local hut = place("GLBHut", cf, f, "StarterShed")
-	eachPart(hut, "_glow", function(p)
-		addLight(p, Color3.fromRGB(255, 200, 140), 10, 0.6)
-	end)
-
-	local bed = place("Bed", cf * L.bed, f, "Bed")
+	-- 2 x 2 starter building dead centre, bed inside (the team spawn is in front of it)
+	local starterCf = cf * L.starter
+	place("KitStarter", starterCf, f, "StarterShed")
+	local bed = place("Bed", starterCf * L.bed, f, "Bed")
 	eachPart(bed, "_Cloth", function(p)
 		p.Color = team.color
 	end)
 	tag(bed, "Bed", {Team = team.name})
 
-	local shop = place("GLBShop", cf, f, "Shop")
+	-- wood and metal shop, counter facing the island middle
+	local shop = place("KitShop", cf * L.shop, f, "Shop")
 	eachPart(shop, "_Cloth", function(p)
 		p.Color = team.color
 	end)
-	eachPart(shop, "_glow", function(p)
-		addLight(p, Color3.fromRGB(255, 214, 160), 12, 0.6)
-	end)
-	-- legible label: a thin sign face in front of the GLB's sign board, carrying the SurfaceGui
-	local face = Instance.new("Part")
-	face.Name = "Shop_SignFace_Steel"
-	face.Anchored = true
-	face.CanCollide = false
-	face.CanQuery = false
-	face.CanTouch = false
-	face.CastShadow = false
-	face.Material = Enum.Material.SmoothPlastic
-	face.Color = Color3.fromRGB(43, 42, 46)
-	face.Size = L.shopSign.size
-	face.CFrame = cf * L.shopSign.cframe
-	face.Parent = shop
 	signGui(shop, team.color, "SHOP")
-	local gui = face:FindFirstChildOfClass("SurfaceGui")
-	if gui then
-		gui.Face = L.shopSign.face
-	end
 	tag(shop, "Shop", {Team = team.name})
 
-	local banner = place("GLBBanner", cf, f, "Banner")
+	-- banner on the back edge, away from the map centre
+	local banner = place("GLBBanner", cf * L.banner, f, "Banner")
 	eachPart(banner, "_Cloth", function(p)
 		p.Color = team.color
 	end)
 
+	-- FPS cover on the rim, off the main routes
+	local cover = folder("Cover", f)
+	for _, c in ipairs(L.cover) do
+		place(c.kind, cf * c.cf, cover)
+	end
+	-- terrain detail outside the build zone
+	local detail = folder("Terrain", f)
+	for _, l in ipairs(L.ledges) do
+		MapKit.ledge(detail, cf * l.cf, l.size)
+	end
+	for _, r in ipairs(L.rimRocks) do
+		place(r.kind, cf * r.cf, detail)
+	end
+
 	buildFloor(f, cf, L.buildZone)
-	spawnPad(f, cf, team.name, team.color)
+	spawnPad(f, starterCf, team.name, team.color, team.brick)
 end
 
 local function buildTeamIsland(parent: Instance, index: number, team: {name: string, angle: number, color: Color3})
@@ -350,6 +385,53 @@ local function buildTeamIsland(parent: Instance, index: number, team: {name: str
 	spawnPad(f, cf, team.name, team.color)
 end
 
+-- Crystal, halo and a soft light column above the high-tier dispenser. None of it collides or stops
+-- shots (PrepareAssets makes the GD_Beacon meshes non-colliding; the column is CanQuery false).
+local function buildBeacon(parent: Instance, disp: Model)
+	local box, size = disp:GetBoundingBox()
+	local top = box.Position.Y + size.Y / 2
+	local m = Instance.new("Model")
+	m.Name = "Beacon"
+	m.Parent = parent
+	local base = CFrame.new(box.Position.X, top + 0.5, box.Position.Z)
+	local crystal = place("BeaconCrystal", base, m, "Crystal")
+	local halo = place("BeaconHalo", base * CFrame.new(0, 6.7, 0), m, "Halo")
+	for _, d in ipairs(crystal:GetDescendants()) do
+		if d:IsA("BasePart") then
+			CollectionService:AddTag(d, "FPSB_Spin")
+			d:SetAttribute("SpinSpeed", 12)
+			if string.sub(d.Name, -8) == "_crystal" then
+				addLight(d, Color3.fromRGB(190, 120, 255), 22, 1)
+			end
+		end
+	end
+	for _, d in ipairs(halo:GetDescendants()) do
+		if d:IsA("BasePart") then
+			CollectionService:AddTag(d, "FPSB_Spin")
+			d:SetAttribute("SpinSpeed", -24)
+		end
+	end
+	local h = MapBuilder.BEACON.columnHeight
+	local function column(name: string, width: number, transparency: number, color: Color3)
+		local p = Instance.new("Part")
+		p.Name = name
+		p.Shape = Enum.PartType.Cylinder
+		p.Anchored = true
+		p.CanCollide = false
+		p.CanQuery = false
+		p.CanTouch = false
+		p.CastShadow = false
+		p.Material = Enum.Material.Neon
+		p.Color = color
+		p.Transparency = transparency
+		p.Size = Vector3.new(h, width, width)
+		p.CFrame = base * CFrame.new(0, 16 + h / 2, 0) * CFrame.Angles(0, 0, math.pi / 2)
+		p.Parent = m
+	end
+	column("LightColumn", 3.2, 0.72, Color3.fromRGB(179, 92, 255))
+	column("LightCore", 1, 0.35, Color3.fromRGB(231, 200, 255))
+end
+
 local function buildGLBCentreShop(f: Instance, shopCf: CFrame)
 	local shop = place("GLBShop", shopCf, f, "Shop")
 	eachPart(shop, "_Cloth", function(p)
@@ -388,13 +470,25 @@ local function buildGLBCentre(parent: Instance)
 	eachPart(island, "_lamp_glow", function(p)
 		addLight(p, Color3.fromRGB(255, 211, 140), 10, 0.6)
 	end)
+	place("UXCentre", cf, f, "Underside")
 
-	-- the GLB's own amethyst gem dropper is the high-tier dispenser
+	-- the GLB's own amethyst gem dropper is the high-tier dispenser, grown into the Amethyst Beacon
 	local disp = place("GLBDropper", cf, f, "CenterDispenser")
+	local box0, size0 = disp:GetBoundingBox()
+	local bottom0 = box0.Position.Y - size0.Y / 2
+	disp:ScaleTo(MapBuilder.BEACON.scale)
+	local box1, size1 = disp:GetBoundingBox()
+	disp:PivotTo(disp:GetPivot() + Vector3.new(0, bottom0 - (box1.Position.Y - size1.Y / 2), 0)) -- re-seat on the plaza
 	eachPart(disp, "_amethyst_glow", function(p)
 		addLight(p, Color3.fromRGB(179, 92, 255), 14, 0.6) -- restrained, like the old cyan core
 	end)
 	tag(disp, "ResourceDispenser", {Tier = "High"})
+	buildBeacon(f, disp)
+
+	local cover = folder("Cover", f)
+	for _, c in ipairs(MapBuilder.CENTRE_COVER) do
+		place(c.kind, cf * c.cf, cover)
+	end
 
 	-- neutral shop (optional): the team islands' GLB shop with a grey sign
 	if L.shop then
@@ -463,6 +557,7 @@ local function buildPlatforms(parent: Instance)
 		if MapBuilder.PLATFORM_STYLE == "GLB" then
 			-- Sterling's dispenser island (imports/bedwars-dispenser-island.obj, 2026-10-28)
 			local plat = place("GLBPlatform", cf, f, name)
+			place("UXPlatform", cf, plat, "Underside")
 			eachPart(plat, "_gold_glow", function(p)
 				addLight(p, Color3.fromRGB(255, 205, 120), 8, 0.5) -- corner lamps
 			end)
@@ -495,6 +590,26 @@ local function buildEnvironment(parent: Instance)
 		m:ScaleTo(s.s)
 	end
 
+	-- far blocky mountain ranges and small islets (non-colliding, fade in the haze)
+	local scenery = folder("Scenery", f)
+	local mountains = {
+		{kind = "DistMountainA", a = 35, r = 2300}, {kind = "DistMountainC", a = 125, r = 2600},
+		{kind = "DistMountainB", a = 215, r = 2100}, {kind = "DistMountainD", a = 300, r = 2500},
+	}
+	for _, mt in ipairs(mountains) do
+		place(mt.kind, MapBuilder.facingCentre(MapBuilder.ringPoint(mt.r, mt.a, -5)), scenery)
+	end
+	local islets = {
+		{kind = "DistIsletA", a = 0, r = 760, y = 170, s = 1.2}, {kind = "DistIsletB", a = 48, r = 880, y = 225, s = 1.0},
+		{kind = "DistIsletC", a = 100, r = 720, y = 150, s = 1.0}, {kind = "DistIsletA", a = 152, r = 940, y = 240, s = 1.5},
+		{kind = "DistIsletB", a = 196, r = 700, y = 185, s = 1.3}, {kind = "DistIsletC", a = 238, r = 900, y = 160, s = 1.2},
+		{kind = "DistIsletA", a = 284, r = 820, y = 210, s = 1.0}, {kind = "DistIsletB", a = 326, r = 950, y = 150, s = 1.6},
+	}
+	for _, it in ipairs(islets) do
+		local m = place(it.kind, MapBuilder.facingCentre(MapBuilder.ringPoint(it.r, it.a, it.y)) * CFrame.Angles(0, math.rad(it.a * 3), 0), scenery)
+		m:ScaleTo(it.s)
+	end
+
 	local kill = Instance.new("Part")
 	kill.Name = "KillHeight"
 	kill.Anchored = true
@@ -520,17 +635,39 @@ function MapBuilder.buildOcean()
 		end
 		task.wait()
 	end
-	terrain.WaterColor = Color3.fromRGB(38, 62, 78)
-	terrain.WaterTransparency = 0.25
-	terrain.WaterReflectance = 0.35
-	terrain.WaterWaveSize = 0.12
-	terrain.WaterWaveSpeed = 6
+	MapBuilder.applyWater()
+end
+
+-- Clear teal-blue water with a little more movement (design board, 2026-10-28).
+function MapBuilder.applyWater()
+	local terrain = workspace.Terrain
+	terrain.WaterColor = Color3.fromRGB(32, 92, 120)
+	terrain.WaterTransparency = 0.35
+	terrain.WaterReflectance = 0.4
+	terrain.WaterWaveSize = 0.18
+	terrain.WaterWaveSpeed = 8
+end
+
+-- One Team per island; players are auto-assigned and spawn only at their team's bed.
+function MapBuilder.setupTeams()
+	local Teams = game:GetService("Teams")
+	for _, t in ipairs(MapBuilder.TEAMS) do
+		local team = Teams:FindFirstChild(t.name) :: Team?
+		if not team then
+			local nt = Instance.new("Team")
+			nt.Name = t.name
+			nt.Parent = Teams
+			team = nt
+		end
+		(team :: Team).TeamColor = BrickColor.new(t.brick)
+		;(team :: Team).AutoAssignable = true
+	end
 end
 
 function MapBuilder.applyLighting()
-	Lighting.ClockTime = 13
+	Lighting.ClockTime = 14
 	Lighting.GeographicLatitude = 30
-	Lighting.Brightness = 2.4
+	Lighting.Brightness = 2.6
 	Lighting.Ambient = Color3.fromRGB(70, 72, 78)
 	Lighting.OutdoorAmbient = Color3.fromRGB(128, 132, 140)
 	Lighting.EnvironmentDiffuseScale = 1
@@ -538,19 +675,20 @@ function MapBuilder.applyLighting()
 	Lighting.ExposureCompensation = 0
 	Lighting.ShadowSoftness = 0.2
 	Lighting.GlobalShadows = true
-	for _, n in ipairs({"DepthOfField", "SunRays"}) do
+	for _, n in ipairs({"DepthOfField"}) do
 		local e = Lighting:FindFirstChild(n)
 		if e then
 			e:Destroy()
 		end
 	end
 	local atm = Lighting:FindFirstChildOfClass("Atmosphere") or Instance.new("Atmosphere")
-	atm.Density = 0.22
-	atm.Offset = 0.12
+	-- haze starts further out and thickens with distance: scenery fades, the arena stays crisp
+	atm.Density = 0.28
+	atm.Offset = 0.3
 	atm.Color = Color3.fromRGB(205, 218, 230)
 	atm.Decay = Color3.fromRGB(120, 145, 170)
-	atm.Glare = 0
-	atm.Haze = 0.6
+	atm.Glare = 0.15
+	atm.Haze = 1.2
 	atm.Parent = Lighting
 	local bloom = Lighting:FindFirstChildOfClass("BloomEffect") or Instance.new("BloomEffect")
 	bloom.Intensity = 0.4
@@ -559,10 +697,15 @@ function MapBuilder.applyLighting()
 	bloom.Parent = Lighting
 	local cc = Lighting:FindFirstChild("FPSB_Grade") or Instance.new("ColorCorrectionEffect")
 	cc.Name = "FPSB_Grade"
-	;(cc :: ColorCorrectionEffect).Saturation = -0.04
-	;(cc :: ColorCorrectionEffect).Contrast = 0.06
+	;(cc :: ColorCorrectionEffect).Saturation = 0.05
+	;(cc :: ColorCorrectionEffect).Contrast = 0.08
 	;(cc :: ColorCorrectionEffect).TintColor = Color3.fromRGB(255, 252, 248)
 	cc.Parent = Lighting
+	local rays = Lighting:FindFirstChild("SunRays") or Instance.new("SunRaysEffect")
+	rays.Name = "SunRays"
+	;(rays :: SunRaysEffect).Intensity = 0.03
+	;(rays :: SunRaysEffect).Spread = 0.5
+	rays.Parent = Lighting
 end
 
 function MapBuilder.build(opts: {ocean: boolean?}?): Model
@@ -572,6 +715,7 @@ function MapBuilder.build(opts: {ocean: boolean?}?): Model
 			old:Destroy()
 		end
 	end
+	MapKit.prepare() -- Part-built templates (starter, shop, cover) are code: refresh them every build
 	local map = Instance.new("Model")
 	map.Name = "Map"
 	local teams = folder("TeamIslands", map)
@@ -586,7 +730,9 @@ function MapBuilder.build(opts: {ocean: boolean?}?): Model
 	if not opts or opts.ocean ~= false then
 		MapBuilder.buildOcean()
 	end
+	MapBuilder.applyWater()
 	MapBuilder.applyLighting()
+	MapBuilder.setupTeams()
 	return map
 end
 

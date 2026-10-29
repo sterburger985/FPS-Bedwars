@@ -124,10 +124,13 @@ function MapChecks.run(MapBuilder: any): {pass: boolean, failures: {string}, sta
 				end
 			end
 		end
-		-- the edge of the build zone must be backed by island, not air: rays just outside the zone
+		-- the edge of the build zone must be backed by island, not air: rays just outside the zone.
+		-- 1 stud out: the GLB island's sand reaches 1.35 past the zone, and its blocky rim has real
+		-- notches beyond that (precise collision now follows them; the old hulls papered over them).
+		local EDGE = 1
 		local edgeAir = 0
 		for x = -zone.size.X / 2, zone.size.X / 2, 4 do
-			for _, z in ipairs({-zone.size.Z / 2 - 2, zone.size.Z / 2 + 2}) do
+			for _, z in ipairs({-zone.size.Z / 2 - EDGE, zone.size.Z / 2 + EDGE}) do
 				local o = cf:PointToWorldSpace(Vector3.new(x, 5, zone.center.Z + z))
 				if not workspace:Raycast(o, Vector3.new(0, -12, 0), rp) then
 					edgeAir += 1
@@ -135,7 +138,7 @@ function MapChecks.run(MapBuilder: any): {pass: boolean, failures: {string}, sta
 			end
 		end
 		for z = -zone.size.Z / 2, zone.size.Z / 2, 4 do
-			for _, x in ipairs({-zone.size.X / 2 - 2, zone.size.X / 2 + 2}) do
+			for _, x in ipairs({-zone.size.X / 2 - EDGE, zone.size.X / 2 + EDGE}) do
 				local o = cf:PointToWorldSpace(Vector3.new(x, 5, zone.center.Z + z))
 				if not workspace:Raycast(o, Vector3.new(0, -12, 0), rp) then
 					edgeAir += 1
@@ -162,6 +165,21 @@ function MapChecks.run(MapBuilder: any): {pass: boolean, failures: {string}, sta
 			fail(string.format("%s bed not reachable through the doorway (hit %s)", t.name, hit and hit.Instance:GetFullName() or "nothing"))
 		end
 		stats.bedSize = bedSize
+
+		-- 4b. the team spawns at its bed: the SpawnLocation sits within 14 studs of the bed and,
+		-- once Teams exist, belongs to this team only
+		local spawn = folder:FindFirstChild("SpawnPad") :: SpawnLocation?
+		if spawn then
+			local dist = (spawn.Position - bedCf.Position).Magnitude
+			stats["spawnToBed_" .. t.name] = dist
+			if dist > 14 then
+				fail(string.format("%s spawn is %.1f studs from the bed", t.name, dist))
+			end
+			local team = game:GetService("Teams"):FindFirstChild(t.name) :: Team?
+			if team and (spawn.Neutral or spawn.TeamColor ~= team.TeamColor) then
+				fail(t.name .. " spawn is not locked to its team")
+			end
+		end
 	end
 
 	-- 5. grounded: every outcrop, shed, shop, banner, dispenser and platform rests on something
@@ -186,7 +204,7 @@ function MapChecks.run(MapBuilder: any): {pass: boolean, failures: {string}, sta
 		end
 	end
 	for _, d in ipairs((map :: Instance):GetDescendants()) do
-		if d:IsA("Model") and d.Parent and (d.Parent.Name == "Outcrops"
+		if d:IsA("Model") and d.Parent and (d.Parent.Name == "Outcrops" or d.Parent.Name == "Cover"
 			or d.Name == "StarterShed" or d.Name == "Shop" or d.Name == "Banner"
 			or d.Name == "ResourceDispenser" or d.Name == "CenterDispenser" or d.Name == "Arch") then
 			groundCheck(d)

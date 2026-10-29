@@ -117,6 +117,45 @@ local ORIGINS: {[string]: {t: string, o: Vector3}} = {
 	["GI_Shop_rust"] = {t = "GLBShop", o = Vector3.new(-35.6161, -7.8064, 26.2534)},
 	["GI_Shop_wood"] = {t = "GLBShop", o = Vector3.new(-36.1065, -5.3375, 25.1562)},
 	["GI_Shop_wood_dark"] = {t = "GLBShop", o = Vector3.new(-35.6255, -4.9875, 25.5556)},
+	-- Detail pass (blender/fpsb_detail.py, detail_origins.json): undersides, rocks, beacon, scenery
+	["GD_BeaconCrystal_crystal"] = {t = "BeaconCrystal", o = Vector3.new(0.0000, -8.0000, 0.0000)},
+	["GD_BeaconCrystal_crystal_d"] = {t = "BeaconCrystal", o = Vector3.new(0.0000, -6.7200, 0.0000)},
+	["GD_BeaconHalo_gold"] = {t = "BeaconHalo", o = Vector3.new(0.0000, 0.0000, 0.0000)},
+	["GD_CoverRock_coverrock"] = {t = "CoverRock", o = Vector3.new(0.0000, -1.9000, 0.0000)},
+	["GD_CoverRock_coverrock_d"] = {t = "CoverRock", o = Vector3.new(2.2000, -4.2000, 1.0000)},
+	["GD_CoverRock_coverrock_l"] = {t = "CoverRock", o = Vector3.new(-0.2500, -4.9000, -0.1000)},
+	["GD_DistIsletA_crock1"] = {t = "DistIsletA", o = Vector3.new(1.5103, 10.7000, 0.0000)},
+	["GD_DistIsletA_crock2"] = {t = "DistIsletA", o = Vector3.new(1.9580, 25.1000, 0.0000)},
+	["GD_DistIsletA_islet_grass"] = {t = "DistIsletA", o = Vector3.new(0.0000, 0.7500, 0.0000)},
+	["GD_DistIsletA_islet_sand"] = {t = "DistIsletA", o = Vector3.new(0.0000, 2.5000, 0.0000)},
+	["GD_DistIsletB_crock1"] = {t = "DistIsletB", o = Vector3.new(-1.2593, 8.5400, 0.0000)},
+	["GD_DistIsletB_crock2"] = {t = "DistIsletB", o = Vector3.new(-0.4486, 18.6200, 0.0000)},
+	["GD_DistIsletB_islet_grass"] = {t = "DistIsletB", o = Vector3.new(0.0000, 0.7500, 0.0000)},
+	["GD_DistIsletB_islet_sand"] = {t = "DistIsletB", o = Vector3.new(0.0000, 2.5000, 0.0000)},
+	["GD_DistIsletC_crock1"] = {t = "DistIsletC", o = Vector3.new(4.1724, 13.5800, 0.0000)},
+	["GD_DistIsletC_crock2"] = {t = "DistIsletC", o = Vector3.new(1.1784, 33.7400, 0.0000)},
+	["GD_DistIsletC_islet_grass"] = {t = "DistIsletC", o = Vector3.new(0.0000, 0.7500, 0.0000)},
+	["GD_DistIsletC_islet_sand"] = {t = "DistIsletC", o = Vector3.new(0.0000, 2.5000, 0.0000)},
+	["GD_DistMountainA_mtn"] = {t = "DistMountainA", o = Vector3.new(11.2114, -135.5942, 5.0718)},
+	["GD_DistMountainA_mtn_top"] = {t = "DistMountainA", o = Vector3.new(31.1718, -308.8643, 2.4923)},
+	["GD_DistMountainB_mtn"] = {t = "DistMountainB", o = Vector3.new(0.3173, -83.4738, -6.0187)},
+	["GD_DistMountainB_mtn_top"] = {t = "DistMountainB", o = Vector3.new(30.4038, -192.6785, 1.9335)},
+	["GD_DistMountainC_mtn"] = {t = "DistMountainC", o = Vector3.new(36.3486, -140.8894, 1.2904)},
+	["GD_DistMountainC_mtn_top"] = {t = "DistMountainC", o = Vector3.new(28.8138, -327.1380, -2.7794)},
+	["GD_DistMountainD_mtn"] = {t = "DistMountainD", o = Vector3.new(13.8814, -75.5099, 6.6254)},
+	["GD_DistMountainD_mtn_top"] = {t = "DistMountainD", o = Vector3.new(0.0794, -170.9074, -4.8094)},
+	["GD_RimRockA_coverrock"] = {t = "RimRockA", o = Vector3.new(0.0000, -0.8000, 0.0000)},
+	["GD_RimRockA_coverrock_l"] = {t = "RimRockA", o = Vector3.new(-0.0500, -1.9500, -0.0500)},
+	["GD_RimRockB_coverrock"] = {t = "RimRockB", o = Vector3.new(-0.0500, -1.3000, 0.0000)},
+	["GD_RimRockB_coverrock_d"] = {t = "RimRockB", o = Vector3.new(0.0500, -0.5500, 0.1000)},
+	["GD_UXCentre_crock1"] = {t = "UXCentre", o = Vector3.new(0.0000, 45.9224, 0.0000)},
+	["GD_UXCentre_crock2"] = {t = "UXCentre", o = Vector3.new(0.0000, 70.6459, 0.0000)},
+	["GD_UXCentre_crock3"] = {t = "UXCentre", o = Vector3.new(0.0000, 90.4365, 0.0000)},
+	["GD_UXPlatform_crock1"] = {t = "UXPlatform", o = Vector3.new(-2.0000, 25.3375, -2.0000)},
+	["GD_UXPlatform_crock2"] = {t = "UXPlatform", o = Vector3.new(0.0000, 30.7128, 0.0000)},
+	["GD_UXTeam_rock1"] = {t = "UXTeam", o = Vector3.new(3.0000, 30.0846, 0.0000)},
+	["GD_UXTeam_rock2"] = {t = "UXTeam", o = Vector3.new(0.0000, 52.7625, 0.0000)},
+	["GD_UXTeam_rock3"] = {t = "UXTeam", o = Vector3.new(0.0000, 67.0933, 0.0000)},
 	-- GLB dispenser island (imports/bedwars-dispenser-island.obj via blender/fpsb_glb_dispenser.py, glbd_origins.json)
 	["GP_Dispenser_gold_glow"] = {t = "GLBDispenser", o = Vector3.new(0.0000, -7.1800, 0.0000)},
 	["GP_Dispenser_gold_trim"] = {t = "GLBDispenser", o = Vector3.new(0.0000, -7.5350, 0.0000)},
@@ -250,6 +289,23 @@ PrepareAssets.MATERIALS = {
 	["GLB:white"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(242, 239, 232)},
 	["GLB:glow"] = {material = Enum.Material.Neon, color = Color3.fromRGB(255, 198, 74)},
 	["GLB:Cloth"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(196, 52, 46)}, -- recoloured per team
+	-- Detail pass (Sterling, 2026-10-28): flat colours, keys "GLBD:<material>"
+	["GLBD:rock1"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(124, 119, 113)},
+	["GLBD:rock2"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(102, 97, 92)},
+	["GLBD:rock3"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(82, 78, 74)},
+	["GLBD:crock1"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(138, 116, 98)},
+	["GLBD:crock2"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(112, 93, 77)},
+	["GLBD:crock3"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(90, 74, 61)},
+	["GLBD:coverrock"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(143, 138, 132)},
+	["GLBD:coverrock_l"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(163, 158, 151)},
+	["GLBD:coverrock_d"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(112, 108, 103)},
+	["GLBD:crystal"] = {material = Enum.Material.Neon, color = Color3.fromRGB(179, 92, 255)},
+	["GLBD:crystal_d"] = {material = Enum.Material.Neon, color = Color3.fromRGB(140, 60, 220)},
+	["GLBD:gold"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(242, 193, 78)},
+	["GLBD:mtn"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(128, 138, 150)},
+	["GLBD:mtn_top"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(196, 204, 214)},
+	["GLBD:islet_grass"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(95, 174, 69)},
+	["GLBD:islet_sand"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(220, 196, 147)},
 	-- GLB dispenser island (Sterling, 2026-10-28): flat colours from the .mtl Kd (linear -> sRGB), keys "GLBP:<material>"
 	["GLBP:rock_dark"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(122, 101, 83)},
 	["GLBP:rock"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(156, 133, 113)},
@@ -288,6 +344,12 @@ function PrepareAssets.suffixOf(name: string): string?
 		local key = "GLB:" .. glb
 		return if PrepareAssets.MATERIALS[key] then key else nil
 	end
+	-- Detail-pass parts are named GD_<Template>_<material>
+	local glbd = string.match(name, "^GD_%a+_(.+)$")
+	if glbd then
+		local key = "GLBD:" .. glbd
+		return if PrepareAssets.MATERIALS[key] then key else nil
+	end
 	-- GLB dispenser-island parts are named GP_<Template>_<material>
 	local glbp = string.match(name, "^GP_%a+_(.+)$")
 	if glbp then
@@ -308,6 +370,14 @@ function PrepareAssets.suffixOf(name: string): string?
 	return nil
 end
 
+-- Walkable tops that get classic studs (a 1-stud Texture on the upward faces; same image as MapKit).
+local STUD_IMAGE = "rbxassetid://7447638591"
+PrepareAssets.STUDDED = {
+	["GLB:sand"] = true, ["GLB:grass"] = true,
+	["GLBC:sand"] = true, ["GLBC:grass"] = true, ["GLBC:dirt_path"] = true, ["GLBC:stone_tile"] = true,
+	["GLBP:stone_tile"] = true,
+} :: {[string]: boolean}
+
 local function applyLook(part: MeshPart, suffix: string)
 	local spec = PrepareAssets.MATERIALS[suffix]
 	part.Material = spec.material
@@ -315,6 +385,20 @@ local function applyLook(part: MeshPart, suffix: string)
 	part.Color = spec.color
 	part.Transparency = spec.transparency or 0
 	part.Reflectance = spec.reflectance or 0
+	local studs = part:FindFirstChild("Studs")
+	if PrepareAssets.STUDDED[suffix] then
+		if not studs then
+			local t = Instance.new("Texture")
+			t.Name = "Studs"
+			t.Texture = STUD_IMAGE
+			t.Face = Enum.NormalId.Top
+			t.StudsPerTileU = 1
+			t.StudsPerTileV = 1
+			t.Parent = part
+		end
+	elseif studs then
+		studs:Destroy()
+	end
 end
 
 local function applyCollision(part: MeshPart, suffix: string)
@@ -327,10 +411,14 @@ local function applyCollision(part: MeshPart, suffix: string)
 		or suffix == "GLBC:lamp_glow" or suffix == "GLBC:banner"
 		or suffix == "GLBP:gold_glow"
 		or string.find(n, "SignFace") ~= nil or string.find(n, "Lights") ~= nil or string.find(n, "Lamp") ~= nil
+	-- detail pass: undersides, far scenery and the beacon never collide and never stop a shot
+	local scenery = string.find(n, "^GD_UX") ~= nil or string.find(n, "^GD_Dist") ~= nil
+		or string.find(n, "^GD_Beacon") ~= nil
+	decorative = decorative or scenery
 	if decorative then
 		part.CanCollide = false
 		part.CanTouch = false
-		part.CanQuery = string.find(n, "^Distant_") == nil
+		part.CanQuery = string.find(n, "^Distant_") == nil and not scenery
 		part.CollisionFidelity = Enum.CollisionFidelity.Box
 	else
 		part.CanCollide = true
@@ -343,7 +431,7 @@ local function applyCollision(part: MeshPart, suffix: string)
 		part.CollisionFidelity = if precise then Enum.CollisionFidelity.PreciseConvexDecomposition
 			else Enum.CollisionFidelity.Hull
 	end
-	if string.find(n, "^Distant_") then
+	if string.find(n, "^Distant_") or string.find(n, "^GD_Dist") or string.find(n, "^GD_Beacon") then
 		part.CastShadow = false
 	end
 end

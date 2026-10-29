@@ -18,6 +18,7 @@ Competitive multiplayer first-person survival shooter on Roblox. It keeps the Be
 - **Phase 1b: GLB team islands.** On 2026-10-27 the team islands were replaced with Sterling's blocky GLB island. Tested and saved. See [[Phase 1b - GLB Team Islands]].
 - **Phase 1c: GLB centre island.** v1 went in on 2026-10-27. On 2026-10-28 it was replaced with Sterling's v2 GLB at ×1.5: walk-in huts, the gem dropper as the high-tier dispenser, and no centre shop. Tested and saved. See [[Phase 1c - GLB Centre Island]].
 - **Phase 1d: GLB dispenser islands.** On 2026-10-28 the 5 resource platforms were replaced with Sterling's dispenser island (×1, fake drops removed). Tested and saved. See [[Phase 1d - GLB Dispenser Islands]].
+- **Phase 1e: Map upgrade.** On 2026-10-28: starter building and bed in the middle (bed = team spawn), new shops, rim cover, thicker undersides, Amethyst Beacon, studs, scenery and lighting. Tested and saved. See [[Phase 1e - Map Upgrade]].
 - Next: whatever Sterling picks (bridge building, beds/respawn, shop UI, dispenser economy).
 
 ## Systems
