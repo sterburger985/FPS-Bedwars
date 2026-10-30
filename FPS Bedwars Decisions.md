@@ -38,3 +38,8 @@ Dated log of design and technical decisions and the reasons for them. Back to [[
 - **2026-10-29: Destruction is `BuildingService.damage()` plus a Studio-only dev hammer (H).** There is no collapse simulation: pieces left floating stay up.
 - **2026-10-29: The default Roblox tool hotbar is off.** Keys 1–6 belong to the blueprint, and a custom weapon hotbar will come later. E is left free for shops and dispensers.
 - **2026-10-29: Corner pieces are true L-shapes.** The corner wall is two walls meeting at a cell corner. The corner floor and corner roof are three tiles of a 2 × 2 block.
+- **2026-10-30: Team shops replaced by Sterling's scrap dropper and vending machines** (`imports/scrap-dropper.obj`, ×1) in the same spot. The meshes don't collide; invisible box colliders do. `MapBuilder.SHOP_STYLE = "Kit"` brings the old stall back.
+- **2026-10-30: Scrap economy.** 1 pickup every 5 s per station, up to 5, each lasting 60 s, collected with E. The Materials machine sells Wood ×10 for 5 Scrap and Wood ×50 for 20 Scrap. Guns has no stock until weapons exist.
+- **2026-10-30: One balance store.** `Resources` holds Wood and Scrap for building, pickups and vending. `InventoryService` holds hotbar items and what is in hand, and building requires the Blueprint in hand.
+- **2026-10-30: Rust-style HUD.** A 6-slot hotbar at the bottom centre with a blue selected slot, a scrap counter beside it, and a green health bar bottom right. No hunger, thirst or other survival bars. Roblox's default health and backpack bars are hidden.
+- **2026-10-30: Number keys pick hotbar slots; building pieces use a right-click piece wheel.** Stairs were added as the 7th piece (one cell, one storey, 15 Wood).

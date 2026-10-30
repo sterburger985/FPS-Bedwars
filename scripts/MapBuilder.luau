@@ -37,6 +37,9 @@ local NEUTRAL_SIGN = Color3.fromRGB(120, 124, 130)
 -- Which team island to build: "GLB" = Sterling's blocky GLB island (imports/team-island-blocky.glb,
 -- 2026-10-27), "Rust" = the original generated island with the rusted shed.
 MapBuilder.TEAM_STYLE = "GLB"
+-- Team shop: "Scrap" = Sterling's scrap dropper + vending machines (imports/scrap-dropper.obj, 2026-10-30),
+-- "Kit" = the MapKit wood and metal stall from the 2026-10-28 upgrade.
+MapBuilder.SHOP_STYLE = "Scrap"
 
 -- Island-local layout for the GLB island (studs, local -Z faces the centre).
 -- Upgrade 2026-10-28 (design board "FPS Bedwars Map Upgrade Plan", Sterling's changes): the 2 x 2 starter
@@ -49,6 +52,10 @@ MapBuilder.LAYOUT_GLB = {
 	spawn = Vector3.new(0, 0.4, -4),             -- the team spawn: inside, in front of the bed
 	bedCheckFrom = Vector3.new(0, 3, -15),       -- 3 studs outside the doorway
 	shop = CFrame.new(36, 0, -24) * CFrame.Angles(0, math.pi / 2, 0), -- KitShop, counter faces the island middle
+	-- Scrap station (Sterling, 2026-10-30): same spot, its 24 x 13 footprint centred where the shop was.
+	-- The station pivot is the dropper's floor centre; the vending deck runs toward the island back (+Z)
+	-- and the vending machines face the island middle (-X).
+	scrapStation = CFrame.new(36, 0, -24) * CFrame.Angles(0, math.pi / 2, 0) * CFrame.new(4.8, 0, 0),
 	banner = CFrame.new(0, 0, 74.8),             -- GLB banner moved from the front (z -37.4) to the back (z +37.4)
 	shopSign = {cframe = CFrame.new(32.56, 7.26, -20.38), size = Vector3.new(7.4, 2.0, 0.1), face = Enum.NormalId.Back},
 	cover = {
@@ -283,6 +290,108 @@ local function spawnPad(parent: Instance, cf: CFrame, team: string, color: Color
 	s.Parent = parent
 end
 
+-- Scrap station collision (template space, the station pivot): invisible exact boxes, because the
+-- station meshes never collide (PrepareAssets). Shots still hit the visible meshes.
+local STATION_COLLIDERS = {
+	{"Floor", Vector3.new(0, 0.23, 0), Vector3.new(13.7, 0.46, 11.7)},
+	{"Deck", Vector3.new(-11.63, 0.25, 0), Vector3.new(9.95, 0.5, 11.7)},
+	{"Pad", Vector3.new(0, 0.865, 0), Vector3.new(6.2, 0.93, 6.2)},
+	{"Pillar", Vector3.new(5, 4.3, 4), Vector3.new(1.4, 7.8, 1.4)},
+	{"Pillar", Vector3.new(-5, 4.3, 4), Vector3.new(1.4, 7.8, 1.4)},
+	{"Pillar", Vector3.new(5, 4.3, -4), Vector3.new(1.4, 7.8, 1.4)},
+	{"Pillar", Vector3.new(-5, 4.3, -4), Vector3.new(1.4, 7.8, 1.4)},
+	{"PillarBase", Vector3.new(5, 1.28, 4), Vector3.new(2.2, 1.76, 2.2)},
+	{"PillarBase", Vector3.new(-5, 1.28, 4), Vector3.new(2.2, 1.76, 2.2)},
+	{"PillarBase", Vector3.new(5, 1.28, -4), Vector3.new(2.2, 1.76, 2.2)},
+	{"PillarBase", Vector3.new(-5, 1.28, -4), Vector3.new(2.2, 1.76, 2.2)},
+	{"Roof", Vector3.new(0, 10.22, 0), Vector3.new(14.4, 4.04, 12.85)},
+	{"Railing", Vector3.new(-16.3, 1.04, 0), Vector3.new(0.2, 1.28, 11.3)},
+	{"BackWall", Vector3.new(-10.55, 4.45, 5.47), Vector3.new(12.5, 8.1, 0.75)},
+	{"VendGuns", Vector3.new(-10.35, 3.75, 4.18), Vector3.new(3.2, 6.7, 2.55)},
+	{"VendMaterials", Vector3.new(-13.75, 3.75, 4.18), Vector3.new(3.2, 6.7, 2.55)},
+}
+MapBuilder.SCRAP_OUTPUT = Vector3.new(0, 1.33, 0) -- top of the glowing pad under the claw (template space)
+
+local function invisiblePart(name: string, cf: CFrame, size: Vector3, collide: boolean, parent: Instance): Part
+	local p = Instance.new("Part")
+	p.Name = name
+	p.Anchored = true
+	p.CanCollide = collide
+	p.CanQuery = false
+	p.CanTouch = false
+	p.Transparency = 1
+	p.CastShadow = false
+	p.Size = size
+	p.CFrame = cf
+	p.Parent = parent
+	return p
+end
+
+local function vendLabel(vend: Model, text: string)
+	eachPart(vend, "_label_" .. string.lower(text), function(face)
+		local g = Instance.new("SurfaceGui")
+		g.Name = "Label"
+		g.Face = Enum.NormalId.Front
+		g.SizingMode = Enum.SurfaceGuiSizingMode.PixelsPerStud
+		g.PixelsPerStud = 60
+		g.LightInfluence = 0.5
+		g.Parent = face
+		local t = Instance.new("TextLabel")
+		t.Size = UDim2.fromScale(0.92, 0.8)
+		t.Position = UDim2.fromScale(0.04, 0.1)
+		t.BackgroundTransparency = 1
+		t.Text = string.upper(text)
+		t.TextScaled = true
+		t.Font = Enum.Font.GothamBlack
+		t.TextColor3 = Color3.fromRGB(34, 36, 40)
+		t.Parent = g
+	end)
+end
+
+-- The team's scrap station: claw-machine scrap dropper plus the Guns and Materials vending machines.
+-- Tags: the station is "Shop" (no-build zone, MapChecks) and "ScrapDropper" (with a ScrapOutput
+-- attachment on the pad); each machine is "VendingMachine" with attribute Machine = "Guns" | "Materials"
+-- and a ProximityPrompt (E). Game scripts (ScrapDropperService, ShopService) find them by tag.
+local function buildScrapStation(f: Instance, cf: CFrame, team: {name: string, color: Color3}): Model
+	local station = place("ScrapStation", cf, f, "Shop")
+	local claw = place("ScrapClaw", cf, station, "Claw")
+	claw:SetAttribute("Rest", cf) -- clients animate the claw from here
+	local colliders = folder("Colliders", station)
+	for _, c in ipairs(STATION_COLLIDERS) do
+		invisiblePart(c[1], cf * CFrame.new(c[2]), c[3], true, colliders)
+	end
+	local out = invisiblePart("ScrapOutput", cf * CFrame.new(MapBuilder.SCRAP_OUTPUT), Vector3.new(1, 0.2, 1), false, station)
+	local att = Instance.new("Attachment")
+	att.Name = "ScrapOutput"
+	att.Parent = out
+	-- pad glow
+	eachPart(station, "_yellow_glow", function(p)
+		if not p:FindFirstChildOfClass("PointLight") then
+			addLight(p, Color3.fromRGB(255, 190, 80), 10, 0.6)
+		end
+	end)
+	for _, m in ipairs({{"VendGuns", "Guns", -10.35}, {"VendMaterials", "Materials", -13.75}}) do
+		local vend = place(m[1], cf, station, m[1])
+		vendLabel(vend, m[2])
+		local promptPart = invisiblePart("PromptPart", cf * CFrame.new(m[3], 3.4, 2.7), Vector3.new(2.6, 2, 0.4), false, vend)
+		local prompt = Instance.new("ProximityPrompt")
+		prompt.Name = "VendPrompt"
+		prompt.ActionText = if m[2] == "Materials" then "Buy Materials" else "Browse Guns"
+		prompt.ObjectText = m[2] .. " Vending"
+		prompt.KeyboardKeyCode = Enum.KeyCode.E
+		prompt.HoldDuration = 0
+		prompt.MaxActivationDistance = 8
+		prompt.RequiresLineOfSight = false
+		prompt.Style = Enum.ProximityPromptStyle.Default
+		prompt.Parent = promptPart
+		tag(vend, "VendingMachine", {Machine = m[2], Team = team.name})
+	end
+	tag(station, "Shop", {Team = team.name})
+	tag(station, "ScrapDropper", {Team = team.name})
+	return station
+end
+MapBuilder.buildScrapStation = buildScrapStation
+
 local function buildGLBTeamIsland(parent: Instance, team: {name: string, angle: number, color: Color3, brick: string})
 	local L = MapBuilder.LAYOUT_GLB
 	local cf = MapBuilder.teamCFrame(team.name)
@@ -301,13 +410,18 @@ local function buildGLBTeamIsland(parent: Instance, team: {name: string, angle: 
 	end)
 	tag(bed, "Bed", {Team = team.name})
 
-	-- wood and metal shop, counter facing the island middle
-	local shop = place("KitShop", cf * L.shop, f, "Shop")
-	eachPart(shop, "_Cloth", function(p)
-		p.Color = team.color
-	end)
-	signGui(shop, team.color, "SHOP")
-	tag(shop, "Shop", {Team = team.name})
+	if MapBuilder.SHOP_STYLE == "Scrap" then
+		-- scrap dropper + vending machines where the shop was, machines facing the island middle
+		buildScrapStation(f, cf * L.scrapStation, team)
+	else
+		-- wood and metal shop, counter facing the island middle
+		local shop = place("KitShop", cf * L.shop, f, "Shop")
+		eachPart(shop, "_Cloth", function(p)
+			p.Color = team.color
+		end)
+		signGui(shop, team.color, "SHOP")
+		tag(shop, "Shop", {Team = team.name})
+	end
 
 	-- banner on the back edge, away from the map centre
 	local banner = place("GLBBanner", cf * L.banner, f, "Banner")
@@ -734,6 +848,35 @@ function MapBuilder.build(opts: {ocean: boolean?}?): Model
 	MapBuilder.applyLighting()
 	MapBuilder.setupTeams()
 	return map
+end
+
+-- Replaces just each team island's shop with the current SHOP_STYLE, leaving the rest of the map alone.
+function MapBuilder.rebuildShops(): number
+	local islands = workspace:FindFirstChild("Map") and workspace.Map:FindFirstChild("TeamIslands")
+	assert(islands, "Workspace.Map.TeamIslands missing: run build() first")
+	local n = 0
+	for _, team in ipairs(MapBuilder.TEAMS) do
+		local f = islands:FindFirstChild(team.name)
+		if f then
+			local old = f:FindFirstChild("Shop")
+			if old then
+				old:Destroy()
+			end
+			local cf = MapBuilder.teamCFrame(team.name)
+			if MapBuilder.SHOP_STYLE == "Scrap" then
+				buildScrapStation(f, cf * MapBuilder.LAYOUT_GLB.scrapStation, team)
+			else
+				local shop = place("KitShop", cf * MapBuilder.LAYOUT_GLB.shop, f, "Shop")
+				eachPart(shop, "_Cloth", function(p)
+					p.Color = team.color
+				end)
+				signGui(shop, team.color, "SHOP")
+				tag(shop, "Shop", {Team = team.name})
+			end
+			n += 1
+		end
+	end
+	return n
 end
 
 return MapBuilder

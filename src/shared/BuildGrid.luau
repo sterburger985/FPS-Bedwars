@@ -14,6 +14,8 @@
 --                        x = CELL*i, d = 1 runs along z at x = CELL*i starting at z = CELL*k
 --   cell edges, numbered for rotation: 0 = -z (south), 1 = +x (east), 2 = +z (north), 3 = -x (west)
 --   cell corners: 0 = (-x,-z), 1 = (+x,-z), 2 = (+x,+z), 3 = (-x,+z); corner c joins edges c and c-1
+--   stairs key V:i:j:k  a flight filling cell (i, k) in storey j; rot is the edge it climbs toward.
+--                       The tile above it (S:i:j+1:k) must stay open, so it is the stairwell.
 --
 -- A request is { piece, grid, i, j, k, rot } with integers only. For a straight wall rot is the
 -- edge of cell (i, k); for corner pieces it is the corner; for floors and roofs it only turns the
@@ -33,11 +35,12 @@ local BuildGrid = {}
 
 export type Grid = { id: string, frame: CFrame, halfX: number, halfZ: number }
 export type Request = { piece: string, grid: string, i: number, j: number, k: number, rot: number }
-export type Box = { cf: CFrame, size: Vector3 } -- cf in grid space or world space, as labelled
+export type Box = { cf: CFrame, size: Vector3, shape: string? } -- cf in grid or world space; shape "Stairs" for a flight
 export type Zone = { cf: CFrame, size: Vector3 }
 export type Footprint = {
 	slabs: { { i: number, j: number, k: number } },
 	walls: { { key: string, i: number, j: number, k: number, d: number } },
+	stairs: { { key: string, i: number, j: number, k: number } },
 	keys: { string },
 	boxes: { Box }, -- grid space
 }
@@ -45,6 +48,7 @@ export type Footprint = {
 export type State = {
 	slabAt: (self: any, grid: string, i: number, j: number, k: number) -> string?,
 	wallAt: (self: any, grid: string, key: string) -> string?,
+	at: (self: any, grid: string, key: string) -> string?,
 }
 export type EvalInput = {
 	request: Request,
@@ -67,6 +71,14 @@ end
 function BuildGrid.wallKey(i: number, j: number, k: number, d: number): string
 	return `W:{i}:{j}:{k}:{d}`
 end
+
+function BuildGrid.stairsKey(i: number, j: number, k: number): string
+	return `V:{i}:{j}:{k}`
+end
+
+-- Unit direction (grid space) of cell edge e: 0 = -z, 1 = +x, 2 = +z, 3 = -x.
+local EDGE_DIR = { [0] = Vector3.new(0, 0, -1), Vector3.new(1, 0, 0), Vector3.new(0, 0, 1), Vector3.new(-1, 0, 0) }
+BuildGrid.EDGE_DIR = EDGE_DIR
 
 -- Normalised wall slot of edge e (0-3) of cell (i, k), storey j.
 function BuildGrid.edgeSlot(i: number, j: number, k: number, e: number): (number, number, number, number)
@@ -115,8 +127,15 @@ function BuildGrid.footprint(req: Request): Footprint?
 		return nil
 	end
 	local i, j, k, rot = req.i, req.j, req.k, req.rot % 4
-	local fp: Footprint = { slabs = {}, walls = {}, keys = {}, boxes = {} }
-	if def.kind == "slab" then
+	local fp: Footprint = { slabs = {}, walls = {}, stairs = {}, keys = {}, boxes = {} }
+	if def.kind == "stairs" then
+		-- one cell, one storey; the box's +Z points the way it climbs (a WedgePart rises toward +Z)
+		local key = BuildGrid.stairsKey(i, j, k)
+		table.insert(fp.stairs, { key = key, i = i, j = j, k = k })
+		table.insert(fp.keys, key)
+		local c = Vector3.new(CELL * i + CELL / 2, STOREY * j + STOREY / 2, CELL * k + CELL / 2)
+		table.insert(fp.boxes, { cf = CFrame.lookAt(c, c - EDGE_DIR[rot]), size = Vector3.new(CELL, STOREY, CELL), shape = "Stairs" })
+	elseif def.kind == "slab" then
 		local cells = { { i, k } }
 		if def.corner then
 			local dx, dz = cornerDir(rot)
@@ -150,7 +169,7 @@ end
 function BuildGrid.toWorld(grid: Grid, boxes: { Box }): { Box }
 	local out = {}
 	for _, b in ipairs(boxes) do
-		table.insert(out, { cf = grid.frame * b.cf, size = b.size })
+		table.insert(out, { cf = grid.frame * b.cf, size = b.size, shape = b.shape })
 	end
 	return out
 end
@@ -219,8 +238,19 @@ local function slabSupported(grid: Grid, state: State, i: number, j: number, k: 
 		if state:slabAt(gid, i + n[1], j, k + n[2]) then
 			return true -- extends a floor or roof beside it (bridges)
 		end
+		if j >= 1 and state:at(gid, BuildGrid.stairsKey(i + n[1], j - 1, k + n[2])) then
+			return true -- the landing at the top of a flight beside it
+		end
 	end
 	return false
+end
+
+local function stairsSupported(grid: Grid, state: State, i: number, j: number, k: number): boolean
+	if j == 0 and cellInZone(grid, i, k) then
+		return true -- on the island ground
+	end
+	local below = state:slabAt(grid.id, i, j, k)
+	return below ~= nil and not isRoof(below) -- standing on a floor
 end
 
 local function wallSupported(grid: Grid, state: State, i: number, j: number, k: number, d: number): boolean
@@ -365,7 +395,7 @@ function BuildGrid.evaluate(input: EvalInput): (boolean, string?, Footprint?, { 
 
 	-- height and map bounds
 	local minLevel = if def.roof then 1 else BuildingConfig.MAX_LEVEL_BELOW
-	local maxLevel = if def.kind == "wall" then BuildingConfig.MAX_LEVEL - 1 else BuildingConfig.MAX_LEVEL
+	local maxLevel = if def.kind == "slab" then BuildingConfig.MAX_LEVEL else BuildingConfig.MAX_LEVEL - 1
 	if req.j < minLevel or req.j > maxLevel then
 		return false, "Out of the build area", fp, world
 	end
@@ -398,6 +428,19 @@ function BuildGrid.evaluate(input: EvalInput): (boolean, string?, Footprint?, { 
 			return false, "Space already built", fp, world
 		end
 	end
+	for _, v in ipairs(fp.stairs) do
+		if input.state:at(grid.id, v.key) then
+			return false, "Space already built", fp, world
+		end
+		if input.state:slabAt(grid.id, v.i, v.j + 1, v.k) then
+			return false, "Stairs need an open tile above", fp, world
+		end
+	end
+	for _, s in ipairs(fp.slabs) do
+		if s.j >= 1 and input.state:at(grid.id, BuildGrid.stairsKey(s.i, s.j - 1, s.k)) then
+			return false, "Keep the stairwell open", fp, world
+		end
+	end
 
 	-- connection to the island or to an existing structure (one supported part is enough)
 	local supported = false
@@ -413,8 +456,14 @@ function BuildGrid.evaluate(input: EvalInput): (boolean, string?, Footprint?, { 
 		end
 		supported = wallSupported(grid, input.state, w.i, w.j, w.k, w.d)
 	end
+	for _, v in ipairs(fp.stairs) do
+		supported = supported or stairsSupported(grid, input.state, v.i, v.j, v.k)
+	end
 	if not supported then
-		return false, if def.roof then "Roofs need walls or a roof beside them" else "Needs a connection", fp, world
+		local why = if def.roof then "Roofs need walls or a roof beside them"
+			elseif def.kind == "stairs" then "Stairs need a floor under them"
+			else "Needs a connection"
+		return false, why, fp, world
 	end
 
 	-- spawn, starter building, shop, dispenser and beacon zones
@@ -454,7 +503,12 @@ function BuildGrid.targetFor(grid: Grid, point: Vector3, look: Vector3, piece: s
 	local corner = if fx < 0.5 then (if fz < 0.5 then 0 else 3) else (if fz < 0.5 then 1 else 2)
 	local req: Request = { piece = piece, grid = grid.id, i = i, j = 0, k = k, rot = 0 }
 
-	if def.kind == "slab" then
+	if def.kind == "stairs" then
+		-- climbs away from the player by default; R turns it in 90 degree steps
+		req.j = math.max(0, math.floor(point.Y / STOREY))
+		local e = if math.abs(look.X) > math.abs(look.Z) then (if look.X > 0 then 1 else 3) else (if look.Z > 0 then 2 else 0)
+		req.rot = (e + rotOffset) % 4
+	elseif def.kind == "slab" then
 		req.j = if def.roof then math.max(1, math.floor(point.Y / STOREY) + 1) else math.max(0, math.floor(point.Y / STOREY + 0.5))
 		req.rot = if def.corner then (corner + rotOffset) % 4 else rotOffset % 4
 		if state:slabAt(grid.id, i, req.j, k) then
@@ -541,6 +595,9 @@ function Registry.wallAt(self: Registry, gid: string, key: string): string?
 	local m = g and g[key]
 	return if m then m:GetAttribute("Piece") :: string else nil
 end
+
+-- Any slot by key (used for stairs).
+Registry.at = Registry.wallAt
 
 ----------------------------------------------------------------------------------------------
 -- Published grids and zones (the server writes them, both sides read them)

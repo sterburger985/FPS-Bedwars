@@ -1,17 +1,16 @@
 --!strict
--- BuildingController: the blueprint tool.
---   B           equip / put away the blueprint
---   1-6         wall, floor, roof, corner wall, corner floor, corner roof (only while equipped)
---   R           rotate 90 degrees
---   Q / Escape  put the blueprint away
---   Left click  build (the server checks it again and charges Wood)
---   H           Studio only: dev hammer, left click damages a building piece
--- E is never bound here, so shop and dispenser prompts keep working.
+-- BuildingController: what the Blueprint and the dev Hammer do while they are in hand.
+-- HotbarController decides what is in hand and calls setTool("Blueprint" | "Hammer" | nil).
+--   Blueprint:  hold right-click for the piece wheel (point at a piece, let go to pick it)
+--               R rotates 90 degrees, left click builds (the server checks it again and charges Wood)
+--   Hammer:     Studio only, left click damages a building piece
+-- E is never bound here, so scrap, shop and vending prompts keep working.
 --
 -- The preview is a local model under the camera, so nobody else sees it. Its colour comes from
 -- BuildGrid.evaluate, the same function the server runs before building.
 
 local CollectionService = game:GetService("CollectionService")
+local ContextActionService = game:GetService("ContextActionService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
@@ -21,6 +20,7 @@ local Shared = ReplicatedStorage:WaitForChild("Shared")
 local BuildingConfig = require(Shared:WaitForChild("BuildingConfig"))
 local BuildGrid = require(Shared:WaitForChild("BuildGrid"))
 local CrosshairController = require(script.Parent:WaitForChild("CrosshairController"))
+local FPSController = require(script.Parent:WaitForChild("FPSController"))
 local BuildUI = require(script.Parent:WaitForChild("BuildUI"))
 
 local BuildingController = {}
@@ -29,18 +29,13 @@ local player = Players.LocalPlayer
 local IS_STUDIO = RunService:IsStudio()
 local PREVIEW_OK = Color3.fromRGB(80, 230, 110)
 local PREVIEW_BAD = Color3.fromRGB(240, 70, 60)
-local NUMBER_KEYS = {
-	[Enum.KeyCode.One] = 1,
-	[Enum.KeyCode.Two] = 2,
-	[Enum.KeyCode.Three] = 3,
-	[Enum.KeyCode.Four] = 4,
-	[Enum.KeyCode.Five] = 5,
-	[Enum.KeyCode.Six] = 6,
-}
+local WHEEL_ACTION = "BlueprintPieceWheel"
 
 local equipped = false
 local hammer = false
 local selected = 1
+local wheelOpen = false
+local wheelPick: number? = nil
 local rotOffset = 0
 local lastPlace = 0
 local lastHammer = 0
@@ -53,7 +48,7 @@ local grids: { [string]: BuildGrid.Grid } = {}
 local zones: { BuildGrid.Zone } = {}
 local buildsFolder: Instance
 local previewModel: Model
-local previewParts: { Part } = {}
+local previewParts: { BasePart } = {}
 local placeRemote: RemoteFunction
 local hammerRemote: RemoteEvent
 local started = false
@@ -61,10 +56,15 @@ local started = false
 ----------------------------------------------------------------------------------------------
 -- Preview
 
-local function previewPart(n: number): Part
+local function previewPart(n: number, shape: string?): BasePart
+	local want = if shape == "Stairs" then "WedgePart" else "Part"
 	local p = previewParts[n]
+	if p and p.ClassName ~= want then
+		p:Destroy()
+		p = nil
+	end
 	if not p then
-		p = Instance.new("Part")
+		p = Instance.new(want) :: any
 		p.Name = "Ghost"
 		p.Anchored = true
 		p.CanCollide = false
@@ -91,7 +91,7 @@ local function showPreview(boxes: { BuildGrid.Box }?, ok: boolean)
 	if boxes then
 		for _, b in ipairs(boxes) do
 			n += 1
-			local p = previewPart(n)
+			local p = previewPart(n, b.shape)
 			p.CFrame = b.cf
 			p.Size = b.size
 			p.Color = if ok then PREVIEW_OK else PREVIEW_BAD
@@ -240,9 +240,9 @@ end
 -- Actions
 
 local function refreshUI()
-	BuildUI.setOpen(equipped, hammer)
-	BuildUI.select(selected)
-	BuildUI.setWood(wood())
+	BuildUI.setOpen(equipped)
+	BuildUI.showStatus(equipped or hammer)
+	BuildUI.setPiece(selected, wood())
 	CrosshairController.setMode(if equipped then "build" elseif hammer then "hammer" else "default")
 	if not equipped then
 		CrosshairController.setValid(nil)
@@ -250,28 +250,70 @@ local function refreshUI()
 	end
 end
 
-local function setEquipped(on: boolean)
-	equipped = on
-	if on then
-		hammer = false
-	end
-	refreshUI()
-end
-
-local function setHammer(on: boolean)
-	hammer = on and IS_STUDIO
-	if hammer then
-		equipped = false
-	end
-	refreshUI()
-	if hammer then
-		BuildUI.setStatus("Dev hammer: click a building piece", "info")
-	end
-end
-
 local function flash(text: string, kind: string)
 	BuildUI.setStatus(text, kind)
 	flashUntil = os.clock() + 1.2
+end
+
+local function closeWheel(apply: boolean)
+	if not wheelOpen then
+		return
+	end
+	wheelOpen = false
+	BuildUI.showWheel(false)
+	FPSController.freeCursor("wheel", false)
+	if apply and wheelPick and wheelPick ~= selected then
+		selected = wheelPick
+		rotOffset = 0
+		refreshUI()
+	end
+end
+
+local function openWheel()
+	if not equipped or wheelOpen then
+		return
+	end
+	wheelOpen = true
+	wheelPick = nil
+	FPSController.freeCursor("wheel", true)
+	BuildUI.highlight(selected, selected)
+	BuildUI.showWheel(true)
+end
+
+local function onWheelAction(_: string, state: Enum.UserInputState, _input: InputObject): Enum.ContextActionResult
+	if state == Enum.UserInputState.Begin then
+		openWheel()
+	elseif state == Enum.UserInputState.End or state == Enum.UserInputState.Cancel then
+		closeWheel(state == Enum.UserInputState.End)
+	end
+	-- sink right-click so the camera never pans while the wheel is up
+	return Enum.ContextActionResult.Sink
+end
+
+-- tool: "Blueprint", "Hammer" or nil (empty hands).
+function BuildingController.setTool(tool: string?)
+	local wasEquipped = equipped
+	equipped = tool == "Blueprint"
+	hammer = tool == "Hammer" and IS_STUDIO
+	if wasEquipped and not equipped then
+		closeWheel(false)
+		ContextActionService:UnbindAction(WHEEL_ACTION)
+	elseif equipped and not wasEquipped then
+		ContextActionService:BindActionAtPriority(WHEEL_ACTION, onWheelAction, false,
+			Enum.ContextActionPriority.High.Value, Enum.UserInputType.MouseButton2)
+	end
+	refreshUI()
+	if hammer then
+		BuildUI.setStatus("", "info")
+	end
+end
+
+function BuildingController.selectPiece(index: number)
+	if BuildingConfig.PIECE_ORDER[index] then
+		selected = index
+		rotOffset = 0
+		refreshUI()
+	end
 end
 
 local function tryPlace()
@@ -312,34 +354,12 @@ local function hammerHit()
 end
 
 local function onInput(input: InputObject, processed: boolean)
-	local key = input.KeyCode
-	-- Escape opens the Roblox menu (processed), but it should still put the blueprint away.
-	if key == Enum.KeyCode.Escape then
-		if equipped then
-			setEquipped(false)
-		end
-		if hammer then
-			setHammer(false)
-		end
-		return
+	if processed or FPSController.isCursorFree() then
+		return -- typing in chat, clicking a menu, or a menu has the mouse
 	end
-	if processed then
-		return -- typing in chat or clicking a menu
-	end
-	if key == Enum.KeyCode.B then
-		setEquipped(not equipped)
-	elseif key == Enum.KeyCode.H and IS_STUDIO then
-		setHammer(not hammer)
-	elseif equipped then
-		local n = NUMBER_KEYS[key]
-		if n then
-			selected = n
-			rotOffset = 0
-			refreshUI()
-		elseif key == Enum.KeyCode.R then
+	if equipped then
+		if input.KeyCode == Enum.KeyCode.R then
 			rotOffset = (rotOffset + 1) % 4
-		elseif key == Enum.KeyCode.Q then
-			setEquipped(false)
 		elseif input.UserInputType == Enum.UserInputType.MouseButton1 then
 			tryPlace()
 		end
@@ -363,18 +383,23 @@ end
 
 local function onFrame()
 	if equipped then
+		if wheelOpen then
+			local cam = workspace.CurrentCamera
+			wheelPick = BuildUI.pick(UserInputService:GetMouseLocation(), cam.ViewportSize)
+			BuildUI.highlight(wheelPick or selected, selected)
+		end
 		evaluateAim()
 		showPreview(current.boxes, current.ok)
 		CrosshairController.setValid(current.ok)
 		if os.clock() > flashUntil then
 			if current.ok then
-				local def = BuildingConfig.PIECES[BuildingConfig.PIECE_ORDER[selected]]
-				BuildUI.setStatus(`{def.displayName}  ·  Click build  ·  R rotate  ·  Q cancel`, "ok")
+				BuildUI.setStatus("Click to build", "ok")
 			else
 				BuildUI.setStatus("Can't build: " .. (current.reason or "invalid"), "bad")
 			end
 		end
 	elseif hammer and os.clock() > flashUntil then
+		CrosshairController.setMode("hammer")
 		BuildUI.setStatus(describeLookedAt() or "Dev hammer: click a building piece", "info")
 	end
 end
@@ -426,21 +451,11 @@ function BuildingController.start()
 	previewModel.Name = "BlueprintPreview"
 	previewModel.Parent = workspace.CurrentCamera
 
-	BuildUI.create(IS_STUDIO)
+	BuildUI.create()
 	refreshUI()
 
 	player:GetAttributeChangedSignal("Wood"):Connect(function()
-		BuildUI.setWood(wood())
-	end)
-
-	player.CharacterAdded:Connect(function(char)
-		setEquipped(false)
-		setHammer(false)
-		local hum = char:WaitForChild("Humanoid") :: Humanoid
-		hum.Died:Connect(function()
-			setEquipped(false)
-			setHammer(false)
-		end)
+		BuildUI.setPiece(selected, wood())
 	end)
 
 	-- the camera can be replaced; keep the preview under the current one
@@ -454,7 +469,7 @@ end
 
 -- For tests and other systems
 function BuildingController.getState()
-	return { equipped = equipped, hammer = hammer, selected = selected, rot = rotOffset, current = current }
+	return { equipped = equipped, hammer = hammer, selected = selected, rot = rotOffset, wheel = wheelOpen, current = current }
 end
 
 return BuildingController

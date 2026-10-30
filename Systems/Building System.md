@@ -12,10 +12,15 @@ How blueprint building and the first-person controls work in code. Built in [[Ph
 | `src/server/BuildingService.luau` | server | publishes grids and zones, validates and builds, `damage(part, amount)`, `destroy`, dev hammer remote |
 | `src/client/FPSController.luau` | client | LockFirstPerson, FOV, sensitivity, hides head and hats |
 | `src/client/CrosshairController.luau` | client | four-line crosshair, `setMode`, `setValid`, `kick`, `aimRay` |
-| `src/client/BuildUI.luau` | client | bottom bar, Wood count, status line, key hint |
-| `src/client/BuildingController.luau` | client | input, aim, preview ghost, place requests, dev hammer |
+| `src/client/BuildUI.luau` | client | build panel above the hotbar (piece, cost, Wood, status) and the right-click piece wheel |
+| `src/client/BuildingController.luau` | client | `setTool` from the hotbar, piece wheel, R, aim, preview ghost, place requests, dev hammer |
 
 The entry scripts `src/server/init.server.luau` and `src/client/init.client.luau` start the modules. The client entry also turns off the default Backpack hotbar.
+
+**Since Phase 2b:**
+- **Selecting the blueprint.** The blueprint is a hotbar item (1–6, the mouse wheel or B). Pieces are picked from the right-click wheel.
+- **Stairs.** Stairs (key `V:i:j:k`) fill one cell and one storey and climb toward `rot`. The tile above them must stay open, and the landing at the top supports floors.
+- **Equipped check.** The server refuses builds unless `InventoryService.equipped(player) == "Blueprint"`. See [[Scrap and HUD System]].
 
 ## The grid
 - **One grid per `BuildFloor`.** Each team island has one, and so does the centre. The grid's id is the island folder name ("Red", "Center", …).

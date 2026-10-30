@@ -46,12 +46,12 @@ BuildingConfig.ZONE_MARGINS = {
 }
 BuildingConfig.ZONE_EXTRA_HEIGHT = 24 -- zones also reach this far above the object
 
--- Order matches the number keys 1-6.
-BuildingConfig.PIECE_ORDER = { "Wall", "Floor", "Roof", "CornerWall", "CornerFloor", "CornerRoof" }
+-- Order of the pieces on the right-click piece wheel (clockwise from the top).
+BuildingConfig.PIECE_ORDER = { "Wall", "Floor", "Roof", "Stairs", "CornerWall", "CornerFloor", "CornerRoof" }
 
 export type PieceDef = {
 	displayName: string,
-	kind: "wall" | "slab",
+	kind: "wall" | "slab" | "stairs",
 	corner: boolean,
 	roof: boolean,
 	cost: { [string]: number },
@@ -90,6 +90,17 @@ BuildingConfig.PIECES = {
 		health = 250,
 		material = Enum.Material.Slate,
 		color = Color3.fromRGB(92, 80, 70),
+	},
+	Stairs = {
+		-- a straight flight filling one cell and one storey, climbing toward the side R points it at
+		displayName = "Stairs",
+		kind = "stairs",
+		corner = false,
+		roof = false,
+		cost = { Wood = 15 },
+		health = 300,
+		material = Enum.Material.WoodPlanks,
+		color = Color3.fromRGB(142, 104, 70),
 	},
 	CornerWall = {
 		displayName = "Corner Wall",

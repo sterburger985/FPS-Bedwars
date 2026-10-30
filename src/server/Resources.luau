@@ -3,16 +3,20 @@
 -- example player:GetAttribute("Wood")) so every client can read its own count for the UI, but only
 -- this module changes them; attributes set on a client never replicate back to the server.
 --
--- Shops and dispensers should call Resources.add / Resources.trySpend. To add a resource kind,
--- add its name to KINDS.
+-- This is the one balance store for the game: building costs, scrap pickups and vending purchases
+-- all go through Resources.add / Resources.trySpend, so nothing keeps a second copy of a balance.
+-- To add a resource kind, add its name to KINDS (and a start value to START).
 
 local Players = game:GetService("Players")
 
-local BuildingConfig = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("BuildingConfig"))
+local Shared = game:GetService("ReplicatedStorage"):WaitForChild("Shared")
+local BuildingConfig = require(Shared:WaitForChild("BuildingConfig"))
+local ScrapConfig = require(Shared:WaitForChild("ScrapConfig"))
 
 local Resources = {}
 
-Resources.KINDS = { "Wood" }
+Resources.KINDS = { "Wood", "Scrap" }
+Resources.START = { Wood = 0, Scrap = ScrapConfig.START_SCRAP }
 
 local function valid(kind: string): boolean
 	return table.find(Resources.KINDS, kind) ~= nil
@@ -37,11 +41,15 @@ function Resources.set(player: Player, kind: string, amount: number)
 end
 
 function Resources.add(player: Player, kind: string, amount: number)
+	assert(type(amount) == "number" and amount >= 0 and amount == amount, "add needs a positive amount")
 	Resources.set(player, kind, Resources.get(player, kind) + amount)
 end
 
 function Resources.canAfford(player: Player, cost: { [string]: number }): boolean
 	for kind, amount in pairs(cost) do
+		if not valid(kind) or type(amount) ~= "number" or amount < 0 or amount ~= amount then
+			return false -- unknown resource or a negative / NaN price
+		end
 		if Resources.get(player, kind) < amount then
 			return false
 		end
@@ -69,7 +77,7 @@ function Resources.start()
 	local function onPlayer(player: Player)
 		for _, kind in ipairs(Resources.KINDS) do
 			if player:GetAttribute(kind) == nil then
-				player:SetAttribute(kind, 0)
+				player:SetAttribute(kind, Resources.START[kind] or 0)
 			end
 		end
 		-- Testing stock until shops and dispensers hand out Wood.

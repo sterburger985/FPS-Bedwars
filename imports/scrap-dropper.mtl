@@ -1,0 +1,85 @@
+# Exported by three-d-stage
+newmtl concrete
+Kd 0.3325 0.3419 0.3663
+Ks 0.2000 0.2000 0.2000
+Ns 40
+d 1.0000
+
+newmtl metal_dark
+Kd 0.0467 0.0545 0.0704
+Ks 0.2000 0.2000 0.2000
+Ns 80
+d 1.0000
+
+newmtl metal_light
+Kd 0.2122 0.2270 0.2582
+Ks 0.2000 0.2000 0.2000
+Ns 100
+d 1.0000
+
+newmtl yellow_accent
+Kd 0.8879 0.3813 0.0168
+Ks 0.2000 0.2000 0.2000
+Ns 90
+d 1.0000
+
+newmtl yellow_glow
+Kd 1.0000 0.5395 0.0467
+Ks 0.2000 0.2000 0.2000
+Ns 140
+d 1.0000
+
+newmtl rusty_metal
+Kd 0.2542 0.0612 0.0296
+Ks 0.2000 0.2000 0.2000
+Ns 50
+d 1.0000
+
+newmtl rusty_metal_dark
+Kd 0.1470 0.0343 0.0168
+Ks 0.2000 0.2000 0.2000
+Ns 40
+d 1.0000
+
+newmtl wood
+Kd 0.1946 0.0844 0.0369
+Ks 0.2000 0.2000 0.2000
+Ns 40
+d 1.0000
+
+newmtl scrap
+Kd 0.3231 0.1022 0.0273
+Ks 0.2000 0.2000 0.2000
+Ns 60
+d 1.0000
+
+newmtl scrap_dark
+Kd 0.1559 0.0467 0.0137
+Ks 0.2000 0.2000 0.2000
+Ns 50
+d 1.0000
+
+newmtl interior
+Kd 0.0123 0.0144 0.0194
+Ks 0.2000 0.2000 0.2000
+Ns 40
+d 1.0000
+
+newmtl glass
+Kd 0.5210 0.7682 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 190
+d 0.2500
+
+newmtl label_guns
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 120
+d 1.0000
+
+newmtl label_materials
+Kd 1.0000 1.0000 1.0000
+Ks 0.2000 0.2000 0.2000
+Ns 120
+d 1.0000
+

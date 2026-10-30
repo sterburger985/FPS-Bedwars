@@ -4,6 +4,8 @@
 --  * field of view and mouse sensitivity from BuildingConfig (FOV, MOUSE_SENSITIVITY)
 --  * hides the local head, hats and hair every frame so nothing blocks the view
 --  * re-applies on every respawn; set FPSController.setSensitivity(n) from a settings menu later
+--  * freeCursor(reason, on): menus (piece wheel, vending) free the mouse and hold the view still
+--    while any reason is on; the cursor locks again when the last one closes
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -18,6 +20,8 @@ local player = Players.LocalPlayer
 local sensitivity = BuildingConfig.MOUSE_SENSITIVITY
 local hidden: { BasePart } = {}
 local started = false
+local cursorReasons: { [string]: boolean } = {}
+local frozen = false
 
 -- Parts that sit in front of the first-person camera: the head and anything welded to it.
 local function collectHidden(char: Model)
@@ -48,6 +52,27 @@ function FPSController.setSensitivity(n: number)
 	UserInputService.MouseDeltaSensitivity = sensitivity
 end
 
+local function cursorFree(): boolean
+	return next(cursorReasons) ~= nil
+end
+
+function FPSController.freeCursor(reason: string, on: boolean)
+	cursorReasons[reason] = if on then true else nil
+	local cam = workspace.CurrentCamera
+	if cursorFree() and not frozen then
+		frozen = true
+		cam.CameraType = Enum.CameraType.Scriptable -- hold the view while the mouse points at a menu
+	elseif not cursorFree() and frozen then
+		frozen = false
+		cam.CameraType = Enum.CameraType.Custom
+		UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
+	end
+end
+
+function FPSController.isCursorFree(): boolean
+	return cursorFree()
+end
+
 function FPSController.start()
 	if started then
 		return
@@ -58,7 +83,11 @@ function FPSController.start()
 	player.CameraMinZoomDistance = 0.5
 	UserInputService.MouseDeltaSensitivity = sensitivity
 
-	player.CharacterAdded:Connect(collectHidden)
+	player.CharacterAdded:Connect(function(char)
+		table.clear(cursorReasons) -- menus close on respawn
+		FPSController.freeCursor("", false)
+		collectHidden(char)
+	end)
 	if player.Character then
 		task.spawn(collectHidden, player.Character)
 	end
@@ -72,7 +101,12 @@ function FPSController.start()
 		if player.CameraMode ~= Enum.CameraMode.LockFirstPerson then
 			player.CameraMode = Enum.CameraMode.LockFirstPerson
 		end
-		UserInputService.MouseIconEnabled = false -- the crosshair replaces the cursor
+		if cursorFree() then
+			UserInputService.MouseBehavior = Enum.MouseBehavior.Default
+			UserInputService.MouseIconEnabled = true
+		else
+			UserInputService.MouseIconEnabled = false -- the crosshair replaces the cursor
+		end
 		for _, p in ipairs(hidden) do
 			p.LocalTransparencyModifier = 1
 		end

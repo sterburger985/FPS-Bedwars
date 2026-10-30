@@ -1,0 +1,258 @@
+{
+ "GS_ScrapClaw_metal_dark": {
+  "c": [
+   0.2314,
+   0.0,
+   4.5262
+  ],
+  "root": "ScrapClaw"
+ },
+ "GS_ScrapClaw_metal_light": {
+  "c": [
+   0.2625,
+   0.0,
+   4.859
+  ],
+  "root": "ScrapClaw"
+ },
+ "GS_ScrapClaw_yellow_accent": {
+  "c": [
+   0.0,
+   0.0,
+   5.05
+  ],
+  "root": "ScrapClaw"
+ },
+ "GS_ScrapClaw_yellow_glow": {
+  "c": [
+   0.0,
+   0.0,
+   5.75
+  ],
+  "root": "ScrapClaw"
+ },
+ "GS_ScrapPickup_scrap": {
+  "c": [
+   0.0811,
+   -0.1215,
+   0.7616
+  ],
+  "root": "ScrapPickup"
+ },
+ "GS_ScrapPickup_scrap_dark": {
+  "c": [
+   0.0,
+   0.0,
+   0.7145
+  ],
+  "root": "ScrapPickup"
+ },
+ "GS_ScrapStation_concrete": {
+  "c": [
+   4.875,
+   0.0,
+   0.2
+  ],
+  "root": "ScrapStation"
+ },
+ "GS_ScrapStation_metal_dark": {
+  "c": [
+   4.8,
+   0.0,
+   6.1219
+  ],
+  "root": "ScrapStation"
+ },
+ "GS_ScrapStation_metal_light": {
+  "c": [
+   5.325,
+   0.0,
+   4.3914
+  ],
+  "root": "ScrapStation"
+ },
+ "GS_ScrapStation_rusty_metal": {
+  "c": [
+   0.0,
+   0.0,
+   10.5825
+  ],
+  "root": "ScrapStation"
+ },
+ "GS_ScrapStation_rusty_metal_dark": {
+  "c": [
+   -0.2,
+   0.0,
+   10.7034
+  ],
+  "root": "ScrapStation"
+ },
+ "GS_ScrapStation_wood": {
+  "c": [
+   -0.2,
+   0.0,
+   10.2344
+  ],
+  "root": "ScrapStation"
+ },
+ "GS_ScrapStation_yellow_accent": {
+  "c": [
+   5.22,
+   0.075,
+   4.4225
+  ],
+  "root": "ScrapStation"
+ },
+ "GS_ScrapStation_yellow_glow": {
+  "c": [
+   0.0,
+   0.0,
+   4.625
+  ],
+  "root": "ScrapStation"
+ },
+ "GS_VendGuns_glass": {
+  "c": [
+   10.0,
+   2.93,
+   3.5
+  ],
+  "root": "VendGuns"
+ },
+ "GS_VendGuns_interior": {
+  "c": [
+   10.0,
+   3.495,
+   3.0625
+  ],
+  "root": "VendGuns"
+ },
+ "GS_VendGuns_label_guns": {
+  "c": [
+   10.35,
+   3.445,
+   6.6
+  ],
+  "root": "VendGuns"
+ },
+ "GS_VendGuns_metal_dark": {
+  "c": [
+   10.35,
+   4.185,
+   3.75
+  ],
+  "root": "VendGuns"
+ },
+ "GS_VendGuns_metal_light": {
+  "c": [
+   10.315,
+   3.3,
+   3.15
+  ],
+  "root": "VendGuns"
+ },
+ "GS_VendGuns_rusty_metal": {
+  "c": [
+   10.35,
+   4.45,
+   3.3
+  ],
+  "root": "VendGuns"
+ },
+ "GS_VendGuns_wood": {
+  "c": [
+   10.0,
+   3.25,
+   3.376
+  ],
+  "root": "VendGuns"
+ },
+ "GS_VendGuns_yellow_accent": {
+  "c": [
+   10.35,
+   3.535,
+   4.445
+  ],
+  "root": "VendGuns"
+ },
+ "GS_VendGuns_yellow_glow": {
+  "c": [
+   11.3,
+   3.42,
+   4.35
+  ],
+  "root": "VendGuns"
+ },
+ "GS_VendMaterials_concrete": {
+  "c": [
+   13.4,
+   3.25,
+   3.4
+  ],
+  "root": "VendMaterials"
+ },
+ "GS_VendMaterials_glass": {
+  "c": [
+   13.4,
+   2.93,
+   3.5
+  ],
+  "root": "VendMaterials"
+ },
+ "GS_VendMaterials_interior": {
+  "c": [
+   13.4,
+   3.495,
+   3.0625
+  ],
+  "root": "VendMaterials"
+ },
+ "GS_VendMaterials_label_materials": {
+  "c": [
+   13.75,
+   3.445,
+   6.6
+  ],
+  "root": "VendMaterials"
+ },
+ "GS_VendMaterials_metal_dark": {
+  "c": [
+   13.75,
+   4.185,
+   3.75
+  ],
+  "root": "VendMaterials"
+ },
+ "GS_VendMaterials_metal_light": {
+  "c": [
+   13.75,
+   4.2,
+   3.3
+  ],
+  "root": "VendMaterials"
+ },
+ "GS_VendMaterials_wood": {
+  "c": [
+   13.4,
+   3.25,
+   2.45
+  ],
+  "root": "VendMaterials"
+ },
+ "GS_VendMaterials_yellow_accent": {
+  "c": [
+   13.75,
+   3.5125,
+   4.445
+  ],
+  "root": "VendMaterials"
+ },
+ "GS_VendMaterials_yellow_glow": {
+  "c": [
+   14.7,
+   3.42,
+   4.35
+  ],
+  "root": "VendMaterials"
+ }
+}

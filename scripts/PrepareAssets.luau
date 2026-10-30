@@ -171,6 +171,39 @@ local ORIGINS: {[string]: {t: string, o: Vector3}} = {
 	["GP_Platform_stone_dark"] = {t = "GLBPlatform", o = Vector3.new(0.0000, 0.3400, 0.0000)},
 	["GP_Platform_stone_tile"] = {t = "GLBPlatform", o = Vector3.new(0.0000, 2.1400, 0.0000)},
 	["GP_Platform_wood"] = {t = "GLBPlatform", o = Vector3.new(-0.4719, -1.8600, 0.2672)},
+	-- Scrap station (imports/scrap-dropper.obj, x1, via blender/fpsb_scrap_station.py, scrap_origins.json)
+	["GS_ScrapClaw_metal_dark"] = {t = "ScrapClaw", o = Vector3.new(0.2314, -4.5262, -0.0000)},
+	["GS_ScrapClaw_metal_light"] = {t = "ScrapClaw", o = Vector3.new(0.2625, -4.8590, -0.0000)},
+	["GS_ScrapClaw_yellow_accent"] = {t = "ScrapClaw", o = Vector3.new(0.0000, -5.0500, -0.0000)},
+	["GS_ScrapClaw_yellow_glow"] = {t = "ScrapClaw", o = Vector3.new(0.0000, -5.7500, -0.0000)},
+	["GS_ScrapPickup_scrap"] = {t = "ScrapPickup", o = Vector3.new(0.0811, -0.7616, 0.1215)},
+	["GS_ScrapPickup_scrap_dark"] = {t = "ScrapPickup", o = Vector3.new(0.0000, -0.7145, -0.0000)},
+	["GS_ScrapStation_concrete"] = {t = "ScrapStation", o = Vector3.new(4.8750, -0.2000, -0.0000)},
+	["GS_ScrapStation_metal_dark"] = {t = "ScrapStation", o = Vector3.new(4.8000, -6.1219, -0.0000)},
+	["GS_ScrapStation_metal_light"] = {t = "ScrapStation", o = Vector3.new(5.3250, -4.3914, -0.0000)},
+	["GS_ScrapStation_rusty_metal"] = {t = "ScrapStation", o = Vector3.new(0.0000, -10.5825, -0.0000)},
+	["GS_ScrapStation_rusty_metal_dark"] = {t = "ScrapStation", o = Vector3.new(-0.2000, -10.7034, -0.0000)},
+	["GS_ScrapStation_wood"] = {t = "ScrapStation", o = Vector3.new(-0.2000, -10.2344, -0.0000)},
+	["GS_ScrapStation_yellow_accent"] = {t = "ScrapStation", o = Vector3.new(5.2200, -4.4225, -0.0750)},
+	["GS_ScrapStation_yellow_glow"] = {t = "ScrapStation", o = Vector3.new(0.0000, -4.6250, -0.0000)},
+	["GS_VendGuns_glass"] = {t = "VendGuns", o = Vector3.new(10.0000, -3.5000, -2.9300)},
+	["GS_VendGuns_interior"] = {t = "VendGuns", o = Vector3.new(10.0000, -3.0625, -3.4950)},
+	["GS_VendGuns_label_guns"] = {t = "VendGuns", o = Vector3.new(10.3500, -6.6000, -3.4450)},
+	["GS_VendGuns_metal_dark"] = {t = "VendGuns", o = Vector3.new(10.3500, -3.7500, -4.1850)},
+	["GS_VendGuns_metal_light"] = {t = "VendGuns", o = Vector3.new(10.3150, -3.1500, -3.3000)},
+	["GS_VendGuns_rusty_metal"] = {t = "VendGuns", o = Vector3.new(10.3500, -3.3000, -4.4500)},
+	["GS_VendGuns_wood"] = {t = "VendGuns", o = Vector3.new(10.0000, -3.3760, -3.2500)},
+	["GS_VendGuns_yellow_accent"] = {t = "VendGuns", o = Vector3.new(10.3500, -4.4450, -3.5350)},
+	["GS_VendGuns_yellow_glow"] = {t = "VendGuns", o = Vector3.new(11.3000, -4.3500, -3.4200)},
+	["GS_VendMaterials_concrete"] = {t = "VendMaterials", o = Vector3.new(13.4000, -3.4000, -3.2500)},
+	["GS_VendMaterials_glass"] = {t = "VendMaterials", o = Vector3.new(13.4000, -3.5000, -2.9300)},
+	["GS_VendMaterials_interior"] = {t = "VendMaterials", o = Vector3.new(13.4000, -3.0625, -3.4950)},
+	["GS_VendMaterials_label_materials"] = {t = "VendMaterials", o = Vector3.new(13.7500, -6.6000, -3.4450)},
+	["GS_VendMaterials_metal_dark"] = {t = "VendMaterials", o = Vector3.new(13.7500, -3.7500, -4.1850)},
+	["GS_VendMaterials_metal_light"] = {t = "VendMaterials", o = Vector3.new(13.7500, -3.3000, -4.2000)},
+	["GS_VendMaterials_wood"] = {t = "VendMaterials", o = Vector3.new(13.4000, -2.4500, -3.2500)},
+	["GS_VendMaterials_yellow_accent"] = {t = "VendMaterials", o = Vector3.new(13.7500, -4.4450, -3.5125)},
+	["GS_VendMaterials_yellow_glow"] = {t = "VendMaterials", o = Vector3.new(14.7000, -4.3500, -3.4200)},
 	-- GLB centre island v2 (imports/bedwars-central-island-v2.glb, x1.5, via blender/fpsb_glb_centre.py, glbc2_origins.json)
 	["GC_Centre_banner"] = {t = "GLBCentre", o = Vector3.new(51.0000, -22.5000, -35.1000)},
 	["GC_Centre_dirt_path"] = {t = "GLBCentre", o = Vector3.new(3.0000, 0.4500, 3.0000)},
@@ -316,6 +349,21 @@ PrepareAssets.MATERIALS = {
 	["GLBP:metal"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(185, 188, 196)},
 	["GLBP:iron_ingot"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(215, 218, 224)},
 	["GLBP:wood"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(154, 98, 51)},
+	-- Scrap station (Sterling, 2026-10-30): flat colours from the .mtl Kd (linear -> sRGB), keys "GLBS:<material>"
+	["GLBS:concrete"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(156, 158, 163)},
+	["GLBS:metal_dark"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(61, 66, 75)},
+	["GLBS:metal_light"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(127, 131, 139)},
+	["GLBS:yellow_accent"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(242, 166, 35)},
+	["GLBS:yellow_glow"] = {material = Enum.Material.Neon, color = Color3.fromRGB(255, 194, 61)},
+	["GLBS:rusty_metal"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(138, 70, 48)},
+	["GLBS:rusty_metal_dark"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(107, 52, 35)},
+	["GLBS:wood"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(122, 82, 54)},
+	["GLBS:scrap"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(154, 90, 46)},
+	["GLBS:scrap_dark"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(110, 61, 31)},
+	["GLBS:interior"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(29, 32, 38)},
+	["GLBS:glass"] = {material = Enum.Material.Glass, color = Color3.fromRGB(191, 227, 255), transparency = 0.7},
+	["GLBS:label_guns"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(236, 232, 222)},
+	["GLBS:label_materials"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(236, 232, 222)},
 	-- GLB centre island (Sterling, 2026-10-27): same flat-colour approach, keys "GLBC:<gltf material>"
 	["GLBC:rock"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(156, 133, 113)},
 	["GLBC:rock_dark"] = {material = Enum.Material.SmoothPlastic, color = Color3.fromRGB(122, 101, 83)},
@@ -348,6 +396,12 @@ function PrepareAssets.suffixOf(name: string): string?
 	local glbd = string.match(name, "^GD_%a+_(.+)$")
 	if glbd then
 		local key = "GLBD:" .. glbd
+		return if PrepareAssets.MATERIALS[key] then key else nil
+	end
+	-- Scrap station parts are named GS_<Template>_<material>
+	local glbs = string.match(name, "^GS_%a+_(.+)$")
+	if glbs then
+		local key = "GLBS:" .. glbs
 		return if PrepareAssets.MATERIALS[key] then key else nil
 	end
 	-- GLB dispenser-island parts are named GP_<Template>_<material>
@@ -415,6 +469,9 @@ local function applyCollision(part: MeshPart, suffix: string)
 	local scenery = string.find(n, "^GD_UX") ~= nil or string.find(n, "^GD_Dist") ~= nil
 		or string.find(n, "^GD_Beacon") ~= nil
 	decorative = decorative or scenery
+	-- scrap station meshes are visual only: MapBuilder adds exact invisible box colliders, so the open
+	-- pavilion and the vending deck can never be sealed by convex hulls (shots still hit the meshes)
+	decorative = decorative or string.find(n, "^GS_") ~= nil
 	if decorative then
 		part.CanCollide = false
 		part.CanTouch = false

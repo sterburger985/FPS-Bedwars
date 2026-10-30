@@ -6,6 +6,7 @@
 --    rate limit and the builder's real head position, then charges the cost once and builds
 --  * owns piece health: BuildingService.damage(partOrModel, amount) is the hook for weapons
 --  * a Studio-only dev hammer remote for testing destruction
+--  * building needs the Blueprint in hand and the hammer needs the Hammer (InventoryService)
 --
 -- Remotes (ReplicatedStorage.Remotes): BuildPlace (RemoteFunction, request -> ok, reason) and
 -- DevHammer (RemoteEvent, part).
@@ -19,6 +20,7 @@ local Shared = ReplicatedStorage:WaitForChild("Shared")
 local BuildingConfig = require(Shared:WaitForChild("BuildingConfig"))
 local BuildGrid = require(Shared:WaitForChild("BuildGrid"))
 local Resources = require(script.Parent:WaitForChild("Resources"))
+local InventoryService = require(script.Parent:WaitForChild("InventoryService"))
 
 local BuildingService = {}
 
@@ -139,6 +141,45 @@ local function buildModel(req: BuildGrid.Request, fp: BuildGrid.Footprint, world
 	model:SetAttribute("MaxHealth", def.health)
 	model:SetAttribute("Health", def.health)
 	local frameColor = shade(def.color, 0.62)
+	if def.kind == "stairs" then
+		-- a wedge for walking (a smooth slope never snags) under eight visible steps
+		local b = world[1]
+		local ramp = Instance.new("WedgePart")
+		ramp.Name = "Main"
+		ramp.Anchored = true
+		ramp.CanTouch = false
+		ramp.Transparency = 1
+		ramp.CFrame = b.cf
+		ramp.Size = b.size
+		ramp.Parent = model
+		model.PrimaryPart = ramp
+		local steps = 8
+		local depth = b.size.Z / steps
+		for n = 1, steps do
+			local h = b.size.Y * n / steps
+			local step = Instance.new("Part")
+			step.Name = "Step"
+			step.Anchored = true
+			step.CanCollide = false
+			step.CanTouch = false
+			step.Material = def.material
+			step.Color = if n % 2 == 0 then def.color else shade(def.color, 0.9)
+			step.Size = Vector3.new(b.size.X, h, depth)
+			step.CFrame = b.cf * CFrame.new(0, -b.size.Y / 2 + h / 2, -b.size.Z / 2 + depth * (n - 0.5))
+			step.TopSurface = Enum.SurfaceType.Smooth
+			step.BottomSurface = Enum.SurfaceType.Smooth
+			step:SetAttribute("BaseColor", step.Color)
+			step.Parent = model
+		end
+		-- side stringers
+		for _, side in ipairs({ -1, 1 }) do
+			trim(model, b.cf * CFrame.new(side * (b.size.X / 2 - 0.3), 0, 0) * CFrame.Angles(-math.atan2(b.size.Y, b.size.Z), 0, 0),
+				Vector3.new(0.6, 0.8, math.sqrt(b.size.Y ^ 2 + b.size.Z ^ 2)), frameColor)
+		end
+		CollectionService:AddTag(model, PIECE_TAG)
+		model.Parent = buildsFolder
+		return model
+	end
 	for n, b in ipairs(world) do
 		local p = Instance.new("Part")
 		p.Name = if n == 1 then "Main" else "Part"
@@ -232,6 +273,9 @@ function BuildingService.place(player: Player, raw: any): (boolean, string?)
 	local origin = headOf(player)
 	if not origin then
 		return false, "You are not alive"
+	end
+	if InventoryService.equipped(player) ~= "Blueprint" then
+		return false, "Hold the blueprint to build"
 	end
 	if not rateOk(player) then
 		return false, "Building too fast"
@@ -341,7 +385,7 @@ function BuildingService.start()
 		end
 		local origin = headOf(player)
 		local model = BuildingService.pieceOf(part)
-		if not origin or not model then
+		if not origin or not model or InventoryService.equipped(player) ~= "Hammer" then
 			return
 		end
 		local cf, size = model:GetBoundingBox()
